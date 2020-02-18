@@ -3,27 +3,28 @@ set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin 'gmarik/Vundle.vim'          " Required for vundle to work
-Plugin 'dracula/vim'                " Adds dracula color scheme
-Plugin 'bling/vim-airline'          " Adds airline at the bottom of buffers
-Plugin 'airblade/vim-gitgutter'     " Adds git gutter informations
-Plugin 'tpope/vim-fugitive'         " Adds git commands
-Plugin 'tpope/vim-dadbod'           " Adds database interface
-Plugin 'tpope/vim-surround'         " Adds a way to manipulate surrounding chars
-Plugin 'fatih/vim-go'               " Adds Go language support
-Plugin 'AndrewRadev/splitjoin.vim'  " Adds Go struct split to multiline
-Plugin 'kien/ctrlp.vim'             " Adds fuzzy file search
-Plugin 'scrooloose/nerdtree'        " Adds file tree
-Plugin 'jistr/vim-nerdtree-tabs'    " Adds file tree for tabs
-Plugin 'valloric/youcompleteme'     " Adds autocomplete
-Plugin 'vimwiki/vimwiki'            " Adds personal wiki
-Plugin 'majutsushi/tagbar'          " Adds tags sidebar
+Plugin 'gmarik/Vundle.vim'                  " Required for vundle to work
+Plugin 'dracula/vim'                        " Adds dracula color scheme
+Plugin 'bling/vim-airline'                  " Adds airline at the bottom of buffers
+Plugin 'airblade/vim-gitgutter'             " Adds git gutter informations
+Plugin 'tpope/vim-fugitive'                 " Adds git commands
+Plugin 'tpope/vim-dadbod'                   " Adds database interface
+Plugin 'tpope/vim-surround'                 " Adds a way to manipulate surrounding chars
+Plugin 'fatih/vim-go'                       " Adds Go language support
+Plugin 'pangloss/vim-javascript'            " Adds vim javascript support
+Plugin 'AndrewRadev/splitjoin.vim'          " Adds Go struct split to multiline
+Plugin 'kien/ctrlp.vim'                     " Adds fuzzy file search
+Plugin 'scrooloose/nerdtree'                " Adds file tree
+Plugin 'jistr/vim-nerdtree-tabs'            " Adds file tree for tabs
+Plugin 'valloric/youcompleteme'             " Adds autocomplete
+Plugin 'vimwiki/vimwiki'                    " Adds personal wiki
+Plugin 'majutsushi/tagbar'                  " Adds tags sidebar
 call vundle#end()
 filetype plugin indent on
 
 " General configuration
 set clipboard=unnamed       " Enables yanking to OS clipboard
-set number relativenumber	  " Enables hybrid relative numbers 
+set number relativenumber	  " Enables relative numbers on the left	
 set cursorline              " Enables the cursor line
 set showmatch	              " Enables bracket match highlight
 set mouse=a	                " Enables mouse usage
@@ -34,6 +35,7 @@ set expandtab               " Enables 2 space tab in insert mode
 " Plugins configuration
 let NERDTreeMinimalUI=1                                                           " Make nerdtree hide help message
 let g:tagbar_compact=1                                                            " Make tagbar hide help message
+let vim_markdown_preview_hotkey='<C-m>'                                           " Change hotkey to open markdown preview
 autocmd BufWritePost * GitGutter                                                  " Update GitGutter on every save
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}] " Make vimwiki markdown
 
@@ -42,6 +44,7 @@ augroup Golang
   autocmd FileType go TagbarOpen
   autocmd FileType go nmap <Leader>i <Plug>(go-info)
   autocmd FileType go let g:go_fmt_command="goimports"
+  autocmd FileType go set colorcolumn=80
 augroup END
 
 " Color scheme configuration
