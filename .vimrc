@@ -19,6 +19,7 @@ Plugin 'jistr/vim-nerdtree-tabs'            " Adds file tree for tabs
 Plugin 'valloric/youcompleteme'             " Adds autocomplete
 Plugin 'vimwiki/vimwiki'                    " Adds personal wiki
 Plugin 'majutsushi/tagbar'                  " Adds tags sidebar
+Plugin 'sirver/ultisnips'                   " Adds snippets
 call vundle#end()
 filetype plugin indent on
 
@@ -45,6 +46,10 @@ augroup Golang
   autocmd FileType go nmap <Leader>i <Plug>(go-info)
   autocmd FileType go let g:go_fmt_command="goimports"
   autocmd FileType go set colorcolumn=80
+augroup END
+
+augroup Python
+  autocmd BufWritePost *.py silent! !ctags -R &
 augroup END
 
 " Color scheme configuration
