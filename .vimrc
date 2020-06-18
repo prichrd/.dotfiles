@@ -1,79 +1,96 @@
-" Plugins
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin 'gmarik/Vundle.vim'                  " Required for vundle to work
-Plugin 'dracula/vim'                        " Adds dracula color scheme
-Plugin 'bling/vim-airline'                  " Adds airline at the bottom of buffers
-Plugin 'airblade/vim-gitgutter'             " Adds git gutter informations
-Plugin 'tpope/vim-fugitive'                 " Adds git commands
-Plugin 'tpope/vim-dadbod'                   " Adds database interface
-Plugin 'tpope/vim-surround'                 " Adds a way to manipulate surrounding chars
-Plugin 'fatih/vim-go'                       " Adds Go language support
-Plugin 'pangloss/vim-javascript'            " Adds vim javascript support
-Plugin 'AndrewRadev/splitjoin.vim'          " Adds Go struct split to multiline
-Plugin 'kien/ctrlp.vim'                     " Adds fuzzy file search
-Plugin 'scrooloose/nerdtree'                " Adds file tree
-Plugin 'jistr/vim-nerdtree-tabs'            " Adds file tree for tabs
-Plugin 'valloric/youcompleteme'             " Adds autocomplete
-Plugin 'vimwiki/vimwiki'                    " Adds personal wiki
-Plugin 'majutsushi/tagbar'                  " Adds tags sidebar
-Plugin 'sirver/ultisnips'                   " Adds snippets
+Plugin 'airblade/vim-gitgutter'
+Plugin 'cjrh/vim-conda'
+Plugin 'dracula/vim'
+Plugin 'ervandew/supertab'
+Plugin 'fatih/vim-go'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
+Plugin 'ludovicchabant/vim-gutentags'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'sirver/ultisnips'
+Plugin 'tpope/vim-vinegar'
+Plugin 'valloric/youcompleteme'
+Plugin 'vim-airline/vim-airline'
+Plugin 'honza/vim-snippets'
 call vundle#end()
 filetype plugin indent on
 
-" General configuration
-set clipboard=unnamed       " Enables yanking to OS clipboard
-set number relativenumber	  " Enables relative numbers on the left	
-set cursorline              " Enables the cursor line
-set showmatch	              " Enables bracket match highlight
-set mouse=a	                " Enables mouse usage
-set tabstop=2               " Enables 2 space display for each <Tab>
-set shiftwidth=2            " Enables 2 space display for each <Tab>
-set expandtab               " Enables 2 space tab in insert mode
-
-" Plugins configuration
-let NERDTreeMinimalUI=1                                                           " Make nerdtree hide help message
-let g:tagbar_compact=1                                                            " Make tagbar hide help message
-let vim_markdown_preview_hotkey='<C-m>'                                           " Change hotkey to open markdown preview
-autocmd BufWritePost * GitGutter                                                  " Update GitGutter on every save
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}] " Make vimwiki markdown
-
-" Language specific plugin loading
-augroup Golang
-  autocmd FileType go TagbarOpen
-  autocmd FileType go nmap <Leader>i <Plug>(go-info)
-  autocmd FileType go let g:go_fmt_command="goimports"
-  autocmd FileType go set colorcolumn=80
-augroup END
-
-augroup Python
-  autocmd BufWritePost *.py silent! !ctags -R &
-augroup END
-
-" Color scheme configuration
 syntax on
 color dracula
 
-" Mapping configuration
+set number relativenumber
+set cursorline
+set showmatch
+set splitbelow
+set expandtab
+set ignorecase
+set list
+set mouse=a
+set tabstop=2
+set shiftwidth=2
+set completeopt-=preview
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+
+let g:netrw_liststyle=3
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let NERDTreeMinimalUI = 1
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -l -g ""'
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let NERDTreeQuitOnOpen=1
+
+
+augroup default
+  autocmd BufWritePost * GitGutter
+  autocmd FileType nerdtree noremap <buffer> - :NERDTreeClose<CR>
+augroup END 
+
+augroup go
+  autocmd FileType go nmap <Leader>d <Plug>(go-doc)
+  autocmd FileType go let g:go_fmt_command = 'goimports'
+  autocmd FileType go let g:syntastic_go_checkers = ['go']
+  autocmd FileType go let g:go_rename_command = 'gopls'
+  autocmd FileType go let g:go_highlight_types = 1
+  autocmd FileType go let g:go_highlight_fields = 1
+  autocmd FileType go let g:go_highlight_functions = 1
+  autocmd FileType go let g:go_highlight_function_calls = 1
+  autocmd FileType go let g:go_highlight_operators = 1
+  autocmd FileType go let g:go_highlight_extra_types = 1
+  autocmd FileType go let g:go_highlight_build_constraints = 1
+augroup END
+
+augroup py
+  autocmd FileType py let g:syntastic_python_checkers = ['pylint']
+augroup END
+
+augroup java
+  autocmd FileType java setlocal omnifunc=javacomplete#Complete
+augroup END
+
 map <Space> <Leader>
-map <Leader>n :NERDTreeTabsToggle<CR>
-map <Leader>u :NERDTreeFind<CR>
-map <leader>1 1g
-map <leader>2 2gt
-map <leader>3 3gt
-map <leader>4 4gt
-map <leader>5 5gt
-map <leader>6 6gt
-map <leader>7 7gt
-map <leader>8 8gt
-map <leader>9 9gt
-map <Up> <nop>
-map <Down> <nop>
-map <Left> <nop>
-map <Right> <nop>
-imap <up> <nop>
-imap <down> <nop>
-imap <left> <nop>
-imap <right> <nop>
+noremap - :NERDTreeFind<CR>
+noremap <Leader>ff :FZF<CR>
+noremap <Leader>fw :Ag<CR>
+
+noremap <Leader>bl :buffers<CR>
+noremap <Leader>bf :Buffers<CR>
+noremap <Leader>bn :bnext<CR>
+noremap <Leader>bp :bprevious<CR>
+noremap <Leader>bw :bwipe<CR>
+for i in range(1,9)
+  execute "noremap \<Leader>b". i ." :b". i "\<CR>"
+endfor
+noremap <Leader>ml :marks<CR>
+noremap <Leader>mf :Marks<CR>
+noremap <Leader>rl :registers<CR>
