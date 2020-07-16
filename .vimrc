@@ -64,7 +64,6 @@ autocmd FileType go set foldmethod=syntax foldlevel=20
 " Section: Python
 Plug 'davidhalter/jedi-vim'
 
-
 " Section: PlantUML
 Plug 'aklt/plantuml-syntax'
 
