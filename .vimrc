@@ -3,14 +3,13 @@ map <Space> <Leader>
 call plug#begin('~/.vim/plugged')
 
 " Section: Visual
+set mouse=a
 set termguicolors
 set number
 set cursorline
 set list listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 Plug 'dracula/vim'
 Plug 'vim-airline/vim-airline'
-let g:airline#extensions#tabline#enabled = 1 
-let g:airline#extensions#tabline#buffer_nr_show = 1
 
 " Section: Navigation
 Plug 'scrooloose/nerdtree'
@@ -21,14 +20,11 @@ autocmd FileType nerdtree noremap <buffer> - :NERDTreeClose<CR>
 noremap - :NERDTreeFind<CR>
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-nnoremap <Leader>ff :Files<CR>
-nnoremap <Leader>bf :Buffers<CR>
-nnoremap <Leader>bn :bn<CR>
-nnoremap <Leader>bp :bp<CR>
-nnoremap <Leader>bw :bwipeout<CR>
+nnoremap <Leader>f :Files<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>w :Ag<CR>
 
 " Section: Editing
-set mouse=a
 set expandtab
 set tabstop=2
 set shiftwidth=2
@@ -67,6 +63,10 @@ autocmd FileType go set foldmethod=syntax foldlevel=20
 
 " Section: Python
 Plug 'davidhalter/jedi-vim'
+
+
+" Section: PlantUML
+Plug 'aklt/plantuml-syntax'
 
 " Section: End
 call plug#end()
