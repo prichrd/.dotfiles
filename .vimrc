@@ -3,7 +3,6 @@ map <Space> <Leader>
 call plug#begin('~/.vim/plugged')
 
 " Section: Visual
-set mouse=a
 set termguicolors
 set number
 set cursorline
@@ -12,6 +11,7 @@ Plug 'dracula/vim'
 Plug 'vim-airline/vim-airline'
 
 " Section: Navigation
+set mouse=a
 Plug 'scrooloose/nerdtree'
 let NERDTreeWinSize = 30
 let NERDTreeMinimalUI = 1
@@ -29,6 +29,8 @@ set expandtab
 set tabstop=2
 set shiftwidth=2
 set modelineexpr
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-commentary'
 
 " Section: Completion
 Plug 'valloric/youcompleteme'
@@ -64,8 +66,25 @@ autocmd FileType go set foldmethod=syntax foldlevel=20
 " Section: Python
 Plug 'davidhalter/jedi-vim'
 
+" Section: Matlab
+autocmd FileType matlab setlocal tabstop=4
+autocmd FileType matlab setlocal shiftwidth=4
+Plug 'daeyun/vim-matlab'
+Plug 'djoshea/vim-matlab-fold'
+
 " Section: PlantUML
 Plug 'aklt/plantuml-syntax'
+Plug 'tyru/open-browser.vim'
+Plug 'weirongxu/plantuml-previewer.vim'
+
+" Section: Markdown
+Plug 'plasticboy/vim-markdown'
+
+" Section: Ctags
+Plug 'ludovicchabant/vim-gutentags'
+
+" Section: Tmux
+Plug 'tmux-plugins/vim-tmux'
 
 " Section: End
 call plug#end()
