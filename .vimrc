@@ -29,8 +29,10 @@ set expandtab
 set tabstop=2
 set shiftwidth=2
 set modelineexpr
+set noswapfile
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 
 " Section: Completion
 Plug 'valloric/youcompleteme'
