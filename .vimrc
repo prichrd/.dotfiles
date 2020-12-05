@@ -3,52 +3,37 @@ map <Space> <Leader>
 call plug#begin('~/.vim/plugged')
 
 " Section: Visual
+Plug 'dracula/vim'
 set termguicolors
 set number
 set cursorline
 set list listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
-Plug 'dracula/vim'
-Plug 'vim-airline/vim-airline'
 
 " Section: Navigation
 set mouse=a
-Plug 'scrooloose/nerdtree'
-let NERDTreeWinSize = 30
-let NERDTreeMinimalUI = 1
-let NERDTreeQuitOnOpen = 1
-autocmd FileType nerdtree noremap <buffer> - :NERDTreeClose<CR>
-noremap - :NERDTreeFind<CR>
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-nnoremap <Leader>f :Files<CR>
-nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>w :Ag<CR>
+set path+=**/*
 
 " Section: Editing
+Plug 'tpope/vim-commentary'
 set expandtab
 set tabstop=2
 set shiftwidth=2
 set modelineexpr
 set noswapfile
 Plug 'godlygeek/tabular'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
 
 " Section: Completion
-Plug 'valloric/youcompleteme'
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-Plug 'ervandew/supertab'
-let g:SuperTabDefaultCompletionType = '<C-n>'
 Plug 'sirver/ultisnips'
-let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 Plug 'honza/vim-snippets'
 
+" Section: Databases
+Plug 'vim-scripts/dbext.vim'
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+
 " Section: Git
-Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 autocmd BufWritePost * GitGutter
  
 " Section: Golang
@@ -60,37 +45,28 @@ let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_build_constraints = 1
-let g:go_fmt_experimental = 1
-let g:go_fmt_command = 'goimports'
-let g:go_rename_command = 'gopls'
 autocmd FileType go set foldmethod=syntax foldlevel=20
+autocmd FileType go nmap <Leader>i <Plug>(go-imports)
+autocmd FileType go nmap <Leader>b <Plug>(go-build)
+autocmd FileType go nmap <Leader>l <Plug>(go-lint)
+autocmd FileType go nmap <Leader>t <Plug>(go-test)
+autocmd FileType go nmap <Leader>d <Plug>(go-doc)
+autocmd Filetype go nmap <Leader>a <Plug>(go-alternate-edit)
 
 " Section: Python
-Plug 'davidhalter/jedi-vim'
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
-" Section: Matlab
-autocmd FileType matlab setlocal tabstop=4
-autocmd FileType matlab setlocal shiftwidth=4
-Plug 'daeyun/vim-matlab'
-Plug 'djoshea/vim-matlab-fold'
-
-" Section: PlantUML
-Plug 'aklt/plantuml-syntax'
-Plug 'tyru/open-browser.vim'
-Plug 'weirongxu/plantuml-previewer.vim'
+" Section: C
+autocmd FileType c nmap <Leader>b :make<CR>
 
 " Section: Markdown
-Plug 'plasticboy/vim-markdown'
+Plug 'tpope/vim-markdown'
 
 " Section: Ctags
 Plug 'ludovicchabant/vim-gutentags'
-
-" Section: Tmux
-Plug 'tmux-plugins/vim-tmux'
 
 " Section: End
 call plug#end()
 syntax on
 color dracula
-
 " vim:set et sw=2 foldmethod=expr foldexpr=getline(v\:lnum)=~'^\"\ Section\:'?'>1'\:'=':
