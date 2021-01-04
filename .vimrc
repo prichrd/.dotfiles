@@ -37,7 +37,7 @@ Plug 'tpope/vim-fugitive'
 autocmd BufWritePost * GitGutter
  
 " Section: Golang
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
@@ -61,9 +61,6 @@ autocmd FileType c nmap <Leader>b :make<CR>
 
 " Section: Markdown
 Plug 'tpope/vim-markdown'
-
-" Section: Ctags
-Plug 'ludovicchabant/vim-gutentags'
 
 " Section: End
 call plug#end()
