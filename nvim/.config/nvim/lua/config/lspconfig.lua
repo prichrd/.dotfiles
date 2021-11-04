@@ -26,24 +26,37 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-lspconfig['gopls'].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
+lspconfig.gopls.setup {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  }
 }
 
-lspconfig['pyright'].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
+lspconfig.pyright.setup {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  }
 }
 
--- lspconfig['ccls'].setup {
+-- lspconfig.rls.setup {
 --   on_attach = on_attach,
 --   flags = {
 --     debounce_text_changes = 150,
---   }
+--   },
+--   settings = {
+--     rust = {
+--       unstable_features = true,
+--       build_on_save = false,
+--       all_features = true,
+--     },
+--   },
 -- }
--- 
+
+lspconfig.rust_analyzer.setup {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  }
+}
