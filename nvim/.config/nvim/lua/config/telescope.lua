@@ -25,6 +25,7 @@ telescope.load_extension('fzy_native')
 telescope.load_extension('project')
 
 vim.cmd[[
+  nnoremap <leader>f- <cmd>lua require('telescope.builtin').file_browser()<cr>
   nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
   nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
   nnoremap <leader>fw <cmd>lua require('telescope.builtin').grep_string()<cr>
