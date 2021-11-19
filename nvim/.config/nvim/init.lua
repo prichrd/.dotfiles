@@ -5,7 +5,6 @@ local g, opt, cmd = vim.g, vim.opt, vim.cmd
 g.mapleader = [[ ]]
 g.maplocalleader = [[ ]]
 
-opt.cursorline = true
 opt.list = true
 opt.listchars = 'eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣'
 opt.mouse = 'a'
@@ -26,6 +25,7 @@ vim.cmd [[
   nmap <C-q> :copen<cr>
 
   nmap <Leader>w :w<cr>
+  let g:gruvbox_invert_selection = 0
 ]]
 
-cmd[[color dracula]]
+cmd[[color gruvbox]]
