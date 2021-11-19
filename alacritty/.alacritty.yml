@@ -16,7 +16,10 @@ font:
     style: Bold Italic
 
   size: 14
-  
+
+shell:
+  program: /usr/local/bin/fish 
+
 colors:
   cursor:
       text: '0x665c54'
