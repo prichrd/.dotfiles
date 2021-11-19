@@ -14,6 +14,10 @@ return packer.startup(function()
   use 'habamax/vim-asciidoctor'
   use 'kristijanhusak/vim-dadbod-ui'
 
+  use 'noahfrederick/vim-noctu'
+  use 'jsit/disco.vim'
+  use 'morhetz/gruvbox'
+
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
@@ -38,11 +42,6 @@ return packer.startup(function()
   use {
     'prichrd/vim-matlab',
     config = [[require('config.matlab')]],
-  }
-
-  use {
-    'hoob3rt/lualine.nvim',
-    config = [[require('config.lualine')]],
   }
 
   use {
