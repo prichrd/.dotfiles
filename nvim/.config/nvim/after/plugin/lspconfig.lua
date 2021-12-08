@@ -1,4 +1,7 @@
-local lspconfig = require 'lspconfig'
+local has_lspconfig, lspconfig = pcall(require, "lspconfig")
+if not has_lspconfig then
+  return
+end
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -34,6 +37,13 @@ lspconfig.gopls.setup {
 }
 
 lspconfig.pyright.setup {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  }
+}
+
+lspconfig.eslint.setup {
   on_attach = on_attach,
   flags = {
     debounce_text_changes = 150,
