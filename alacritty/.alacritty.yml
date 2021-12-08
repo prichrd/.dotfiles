@@ -15,10 +15,10 @@ font:
     family: "Fira Code"
     style: Bold Italic
 
-  size: 14
+  size: 15
 
 shell:
-  program: /usr/local/bin/fish 
+  program: /usr/local/bin/fish
 
 colors:
   cursor:
@@ -48,3 +48,4 @@ colors:
     magenta: '0xd3869b'
     cyan:    '0x89b482'
     white:   '0xdfbf8e'
+

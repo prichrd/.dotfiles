@@ -1,4 +1,8 @@
-local telescope = require 'telescope'
+local has_telescope, telescope = pcall(require, "telescope")
+if not has_telescope then
+  return
+end
+
 local actions = require "telescope.actions"
 
 telescope.setup({
@@ -22,19 +26,14 @@ telescope.setup({
 })
 
 telescope.load_extension('fzy_native')
-telescope.load_extension('project')
 
 vim.cmd[[
-  nnoremap <leader>f- <cmd>lua require('telescope.builtin').file_browser()<cr>
   nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
   nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
   nnoremap <leader>fw <cmd>lua require('telescope.builtin').grep_string()<cr>
   nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
   nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
   nnoremap <leader>fq <cmd>lua require('telescope.builtin').quickfix()<cr>
-
   nnoremap <leader>gs <cmd>lua require('telescope.builtin').git_status()<cr>
   nnoremap <leader>gb <cmd>lua require('telescope.builtin').git_branches()<cr>
 ]]
-
-vim.api.nvim_set_keymap('n', '<C-p>', ":lua require'telescope'.extensions.project.project{}<cr>", {noremap = true, silent = true})
