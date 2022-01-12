@@ -5,16 +5,17 @@ end
 
 cmp.setup({
   snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body)
-      end,
-    },
-  sources = cmp.config.sources({
+    expand = function(args)
+      require("luasnip").lsp_expand(args.body)
+    end,
+  },
+  sources = {
       { name = 'nvim_lsp' },
-      { name = 'vsnip' }, 
-    }, {
+      { name = 'nvim_lua' },
+      { name = 'path' },
+      { name = 'luasnip' },
       { name = 'buffer' },
-    }),
+    },
   mapping = {
     ['<C-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
     ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
