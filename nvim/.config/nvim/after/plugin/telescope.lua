@@ -28,12 +28,12 @@ telescope.setup({
 telescope.load_extension('fzy_native')
 
 vim.cmd[[
-  nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-  nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-  nnoremap <leader>fw <cmd>lua require('telescope.builtin').grep_string()<cr>
-  nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-  nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-  nnoremap <leader>fq <cmd>lua require('telescope.builtin').quickfix()<cr>
-  nnoremap <leader>gs <cmd>lua require('telescope.builtin').git_status()<cr>
-  nnoremap <leader>gb <cmd>lua require('telescope.builtin').git_branches()<cr>
+  nnoremap <Leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+  nnoremap <Leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+  nnoremap <Leader>fw <cmd>lua require('telescope.builtin').grep_string()<cr>
+  nnoremap <Leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+  nnoremap <Leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+  nnoremap <Leader>fq <cmd>lua require('telescope.builtin').quickfix()<cr>
+  nnoremap <Leader>gs <cmd>lua require('telescope.builtin').git_status()<cr>
+  nnoremap <Leader>gb <cmd>lua require('telescope.builtin').git_branches()<cr>
 ]]
