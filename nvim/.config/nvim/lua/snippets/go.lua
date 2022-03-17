@@ -32,9 +32,17 @@ M.print = {
 }
 
 M.main = {
-  t {"func main() {", "\t"},
+  t{"func main() {", "\t"},
   i(0),
-  t {"", "}"},
+  t{"", "}"},
+}
+
+M.st = {
+  t{"type "},
+  i(1),
+  t{" struct {", "\t"},
+  i(0),
+  t{"", "}"},
 }
 
 return M

@@ -28,7 +28,7 @@ M.todo = {
 M.print = {
   t{"println!(\"{:?}\", "},
   i(1),
-  t{")"},
+  t{");"},
 }
 
 M.main = {
