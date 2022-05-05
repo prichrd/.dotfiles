@@ -6,7 +6,9 @@
 
 set -e
 
-selected=$((echo "$HOME/.dotfiles" & find ~/Workspace -name .git -exec dirname {} \; -prune)| fzf -q "$1")
+workspace_path="$HOME/Workspace"
+
+selected=$((echo "$HOME/.dotfiles" & find $workspace_path -name .git -exec dirname {} \; -prune)| fzf -q "$1")
 if [[ -z $selected ]]; then
     exit 0
 fi

@@ -26,6 +26,7 @@ telescope.setup({
 })
 
 telescope.load_extension('fzy_native')
+telescope.load_extension('git_worktree')
 
 vim.cmd[[
   nnoremap <Leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
@@ -36,4 +37,6 @@ vim.cmd[[
   nnoremap <Leader>fq <cmd>lua require('telescope.builtin').quickfix()<cr>
   nnoremap <Leader>gs <cmd>lua require('telescope.builtin').git_status()<cr>
   nnoremap <Leader>gb <cmd>lua require('telescope.builtin').git_branches()<cr>
+  nnoremap <Leader>wc <cmd>lua require('telescope').extensions.git_worktree.create_git_worktree()<cr>
+  nnoremap <Leader>ww <cmd>lua require('telescope').extensions.git_worktree.git_worktrees()<cr>
 ]]
