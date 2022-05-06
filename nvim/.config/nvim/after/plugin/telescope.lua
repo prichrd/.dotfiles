@@ -8,6 +8,7 @@ local actions = require "telescope.actions"
 telescope.setup({
   defaults = {
     file_sorter = require('telescope.sorters').get_fzy_sorter,
+    file_ignore_patterns = {'.git/*'},
     mappings = {
       i = {
         ["<C-j>"] = actions.move_selection_next,
@@ -16,7 +17,11 @@ telescope.setup({
       },
     },
   },
-  pickers = {},
+  pickers = {
+    find_files = {
+      hidden = true,
+    },
+  },
   extensions = {
     fzy_native = {
       override_generic_sorter = false,
