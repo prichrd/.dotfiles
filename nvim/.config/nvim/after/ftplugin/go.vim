@@ -6,3 +6,4 @@ nmap <Leader>s <Plug>(go-fill-struct)
 nmap <Leader>i <Plug>(go-imports)
 
 set colorcolumn=80
+set textwidth=80
