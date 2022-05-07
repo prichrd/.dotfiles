@@ -3,4 +3,6 @@ if not has_lspsignature then
   return
 end
 
-lspsignature.setup()
+lspsignature.setup({
+  hint_enable = false
+})

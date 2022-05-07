@@ -56,3 +56,11 @@ lspconfig.rust_analyzer.setup {
     debounce_text_changes = 150,
   }
 }
+
+local luadev = require("lua-dev").setup({
+  lspconfig = {
+    on_attach = on_attach,
+  },
+})
+
+lspconfig.sumneko_lua.setup(luadev)
