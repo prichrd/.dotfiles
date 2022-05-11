@@ -9,38 +9,61 @@ vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
 treesitter.setup{
   ensure_installed = {
     "bash",
-    "c", 
-    "cpp", 
+    "c",
+    "cpp",
     "css",
     "dockerfile",
     "fish",
-    "go", 
+    "go",
     "gomod",
     "html",
     "http",
     "javascript",
     "json",
-    "lua", 
+    "lua",
     "make",
-    "python", 
+    "python",
     "query",
     "regex",
-    "rust", 
-    "toml", 
+    "rust",
+    "toml",
     "vim",
-    "yaml", 
+    "yaml",
   },
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
   },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "gnn",
-      node_incremental = "<C-k>",
-      node_decremental = "<C-j>",
-      scope_incremental = "<C-l>",
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
     },
   },
 }
