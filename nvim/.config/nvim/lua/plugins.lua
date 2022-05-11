@@ -2,8 +2,7 @@
 local packer = require 'packer'
 
 return packer.startup(function()
-
-  -- Allows the loading of local packages first if they are available. The function 
+  -- Allows the loading of local packages first if they are available. The function
   -- will start by looking in the ~/Workspace/github.com/ directory and then fallback
   -- to regular `use`.
   local use_local = function(repo, package, opts)
@@ -37,7 +36,6 @@ return packer.startup(function()
   use_local('nvim-lua', 'plenary.nvim')
   use_local('nvim-lualine', 'lualine.nvim')
   use_local('nvim-telescope', 'telescope-fzy-native.nvim')
-  use_local('nvim-telescope', 'telescope-project.nvim')
   use_local('nvim-telescope', 'telescope.nvim')
   use_local('nvim-treesitter', 'nvim-treesitter' )
   use_local('nvim-treesitter', 'nvim-treesitter-textobjects')
