@@ -1,12 +1,19 @@
 #!/bin/bash
-set -e
+set -e -x
 
 BASE_PATH=$1
 if [[ -z $BASE_PATH ]]; then
     exit 0
 fi
 
-selected=$(fd .git $BASE_PATH --hidden --type d | xargs dirname | fzf -q "$1")
+
+uname="$(uname -s)"
+case "${uname}" in
+    Linux*)     fdcmd="$(which fdfind)";;
+    Darwin*)    fdcmd="$(which fd)";;
+esac
+
+selected=$($fdcmd .git $BASE_PATH --hidden --type d | xargs dirname | fzf -q "$1")
 if [[ -z $selected ]]; then
     exit 0
 fi
