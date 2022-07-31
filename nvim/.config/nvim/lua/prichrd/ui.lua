@@ -63,5 +63,4 @@ M.execute_select_callback = function(bufnr)
   end
 end
 
-
 return M
