@@ -6,17 +6,10 @@
 
 set -e
 
-workspace_path="$HOME/Workspace"
-
-selected=$((echo "$HOME/.dotfiles" & find $workspace_path -name .git -exec dirname {} \; -prune)| fzf -q "$1")
-if [[ -z $selected ]]; then
-    exit 0
-fi
-
+selected=$(project-picker "$WORKSPACE")
 selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux || true)
 
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+if [[ -z $TMUX ]]; then
     tmux new-session -s $selected_name -c $selected
     exit 0
 fi
