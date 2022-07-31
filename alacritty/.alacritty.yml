@@ -15,7 +15,7 @@ font:
     family: "JetbrainsMono Nerd Font Mono"
     style: Bold Italic
 
-  size: 18
+  size: 10 
 
 shell:
   program: /bin/zsh
@@ -49,3 +49,6 @@ colors:
     cyan:    '0x89b482'
     white:   '0xdfbf8e'
 
+key_bindings:
+  - { key: V, mods: Control, action: Paste } 
+  - { key: V, mods: Control|Shift, action: ReceiveChar }
