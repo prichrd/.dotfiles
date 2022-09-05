@@ -1,33 +1,59 @@
-local has_cmp, cmp = pcall(require, "cmp")
+local utils = require('utils')
+
+local has_cmp, cmp = utils.preq('cmp')
 if not has_cmp then
   return
 end
 
-local has_lspkind, lspkind = pcall(require, "lspkind")
-if not has_lspkind then
-  return
+local cfg = {
+  snippet = {},
+  sources = {},
+  formatting = {},
+  mapping = {
+    ['<C-j>'] = cmp.mapping.select_next_item({
+      behavior = cmp.SelectBehavior.Insert
+    }),
+    ['<C-k>'] = cmp.mapping.select_prev_item({
+      behavior = cmp.SelectBehavior.Insert
+    }),
+    ['<C-l>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    })
+  },
+}
+
+--
+-- Configure extensions
+--
+if utils.exists('cmp_nvim_lsp') then
+  table.insert(cfg.sources, { name = 'nvim_lsp' })
 end
 
-local has_luasnip, luasnip = pcall(require, "luasnip")
-if not has_luasnip then
-  return
+if utils.exists('cmp_path') then
+  table.insert(cfg.sources, { name = 'path' })
 end
 
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'path' },
-    { name = 'nvim_lua' },
-    { name = 'luasnip' },
-    { name = 'buffer' },
-  },
-  formatting = {
-    format = lspkind.cmp_format {
+if utils.exists('cmp_buffer') then
+  table.insert(cfg.sources, { name = 'buffer' })
+end
+
+if utils.exists('cmp_nvim_lua') then
+  table.insert(cfg.sources, { name = 'nvim_lua' })
+end
+
+if utils.exists('cmp_luasnip', 'luasnip') then
+  table.insert(cfg.sources, { name = 'luasnip' })
+  cfg.snippet.expand = function(args)
+    require('luasnip').lsp_expand(args.body)
+  end
+end
+
+--
+-- Configure formatting
+--
+if utils.exists('lspkind') then
+  cfg.formatting.format = require('lspkind').cmp_format({
       with_text = true,
       menu = {
         buffer = "[buf]",
@@ -38,14 +64,7 @@ cmp.setup({
         gh_issues = "[issues]",
         tn = "[TabNine]",
       },
-    },
-  },
-  mapping = {
-    ['<C-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-    ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-    ['<C-l>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
     })
-  },
-})
+end
+
+cmp.setup(cfg)

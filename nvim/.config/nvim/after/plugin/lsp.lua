@@ -3,11 +3,9 @@ if not has_lspconfig then
   return
 end
 
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   local opts = { noremap = true, silent = true }
@@ -30,45 +28,17 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
-lspconfig.gopls.setup {
-  on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 150,
-  }
-}
+--
+-- Configure plugins
+--
+local has_lspsignature, lspsignature = pcall(require, "lsp_signature")
+if has_lspsignature then
+  lspsignature.setup({
+    hint_enable = false
+  })
+end
 
-lspconfig.pyright.setup {
-  on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 150,
-  }
-}
-
-lspconfig.eslint.setup {
-  on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 150,
-  }
-}
-
-lspconfig.rust_analyzer.setup {
-  on_attach = on_attach,
-  flags = {
-    debounce_text_changes = 150,
-  },
-  settings = {
-    ["rust-analyzer"] = {
-      checkOnSave = {
-        command = "clippy"
-      },
-    }
-  }
-}
-
-local luadev = require("lua-dev").setup({
-  lspconfig = {
-    on_attach = on_attach,
-  },
-})
-
-lspconfig.sumneko_lua.setup(luadev)
+--
+-- Configure language specific settings
+--
+require('lang.all').config_lsp(lspconfig, on_attach)
