@@ -6,30 +6,8 @@ end
 vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
 
-treesitter.setup{
-  ensure_installed = {
-    "bash",
-    "c",
-    "cpp",
-    "css",
-    "dockerfile",
-    "fish",
-    "go",
-    "gomod",
-    "html",
-    "http",
-    "javascript",
-    "json",
-    "lua",
-    "make",
-    "python",
-    "query",
-    "regex",
-    "rust",
-    "toml",
-    "vim",
-    "yaml",
-  },
+local cfg = {
+  ensure_installed = {},
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
@@ -67,3 +45,10 @@ treesitter.setup{
     },
   },
 }
+
+--
+-- Configure language specific settings
+--
+require('lang.all').config_treesitter(cfg)
+
+treesitter.setup(cfg)

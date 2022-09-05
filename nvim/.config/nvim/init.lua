@@ -1,4 +1,4 @@
-require 'plugins'
+require('plugins')
 
 vim.g.mapleader = [[ ]]
 

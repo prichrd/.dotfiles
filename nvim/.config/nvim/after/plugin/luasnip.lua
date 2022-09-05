@@ -1,4 +1,4 @@
-local has_luasnip, ls = pcall(require, "luasnip")
+local has_luasnip, _ = pcall(require, "luasnip")
 if not has_luasnip then
   return
 end
