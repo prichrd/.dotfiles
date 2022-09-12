@@ -54,11 +54,9 @@ for_window [workspace="2:Web"] layout stacked
 exec --no-startup-id i3-msg 'workspace 2:Web; exec firefox'
 
 set $ws3 "3:Com"
+assign [class="Slack"] $ws3
 assign [class="discord"] $ws3
-assign [class="slack"] $ws3
 for_window [workspace="3:Com"] layout stacked
-exec --no-startup-id i3-msg 'workspace 3:Com; exec discord'
-exec --no-startup-id i3-msg 'workspace 3:Com; exec slack'
 
 set $ws4 "4"
 set $ws5 "5"
