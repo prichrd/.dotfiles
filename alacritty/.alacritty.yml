@@ -15,7 +15,7 @@ font:
     family: "JetbrainsMono Nerd Font Mono"
     style: Bold Italic
 
-  size: 12
+  size: 10
 
 shell:
   program: /bin/zsh
