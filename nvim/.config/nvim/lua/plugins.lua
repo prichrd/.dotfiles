@@ -44,6 +44,9 @@ return packer.startup(function()
   use('saadparwaiz1/cmp_luasnip')
   use('tamago324/cmp-zsh')
 
+  -- Go
+  use('fatih/vim-go')
+
   -- Syntax & Colors
   use('morhetz/gruvbox')
   use('nvim-treesitter/nvim-treesitter')

@@ -1,63 +1,31 @@
-# Map "cmd" as the modifier key.
 set $mod Mod4
-
-font pango:monospace 8
-
-# Remove borders.
-for_window [class="^.*"] border pixel 1
-
-# Start XDG autostart .desktop files using dex. See also
-# https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex --autostart --environment i3
-
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
-
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
-# Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# kill focused window
-bindsym $mod+q kill
+font pango: JetbrainsMono Nerd Font Mono 9
 
-# start dmenu (a program launcher)
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id tmux kill-server
+exec --no-startup-id nm-applet
+exec --no-startup-id pavucontrol
+exec --no-startup-id screen-setup
+exec --no-startup-id chromium
+exec --no-startup-id slack
+exec --no-startup-id alacritty
+
 bindsym $mod+space exec --no-startup-id dmenu_run
-
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
+bindsym $mod+f floating toggle
+bindsym $mod+s layout stacking
+bindsym $mod+v split v
+bindsym $mod+w layout tabbed
+bindsym $mod+x kill
+bindsym $mod+z split h
+bindsym $mod+ctrl+q exec --no-startup-id i3lock -i $HOME/.background.png
+bindsym $mod+ctrl+s exec --no-startup-id screen-setup
 
-# toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
-
-# Define names for default workspaces for which we configure key bindings later on.
-# We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:Term"
-assign [class="Alacritty"] $ws1
-exec --no-startup-id i3-msg 'workspace 1:Term; exec alacritty'
-
-set $ws2 "2:Web"
-assign [class="firefox"] $ws2
-for_window [workspace="2:Web"] layout stacked
-exec --no-startup-id i3-msg 'workspace 2:Web; exec firefox'
-
-set $ws3 "3:Com"
-assign [class="Slack"] $ws3
-assign [class="discord"] $ws3
-for_window [workspace="3:Com"] layout stacked
-
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
@@ -65,6 +33,22 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+workspace $ws1 output HDMI-1
+workspace $ws2 output HDMI-1
+workspace $ws3 output HDMI-1
+workspace $ws4 output HDMI-1
+workspace $ws5 output HDMI-1
+workspace $ws6 output HDMI-1
+workspace $ws7 output HDMI-1
+workspace $ws8 output HDMI-1
+workspace $ws9 output HDMI-1
+workspace $ws10 output eDPI-1
+
+assign [class="Alacritty"] $ws1
+assign [class="Chromium"] $ws2
+assign [class="Slack"] $ws3
+assign [class="Pavucontrol"] $ws9
 
 # switch to workspace
 bindsym $mod+1 workspace number 1
@@ -114,14 +98,31 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# split in horizontal orientation
-bindsym $mod+z split h
+for_window [class="^.*"] border pixel 0
+set $bg #282828
+set $red #cc241d
+set $green #98971a
+set $yellow #d79921
+set $blue #458588
+set $purple #b16286
+set $aqua #689d68
+set $gray #a89984
+set $darkgray #1d2021
 
-# split in vertical orientation
-bindsym $mod+v split v
-
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
 bar {
-        status_command i3status
+    position bottom
+    status_command i3blocks
+    colors {
+        background $bg
+        statusline $yellow
+        focused_workspace    $aqua $aqua $darkgray
+        inactive_workspace   $darkgray $darkgray $yellow
+        active_workspace     $darkgray $darkgray $yellow
+        urgent_workspace     $red $red $bg
+    }
 }
+
+client.focused          $blue $blue $darkgray $purple $darkgray
+client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
+client.urgent           $red $red $white $red $red
