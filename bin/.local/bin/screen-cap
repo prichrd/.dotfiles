@@ -1,0 +1,4 @@
+#!/bin/bash
+
+D=$(date +%F-%H-%M-%S)
+import "$HOME/Pictures/capture_$D.png"

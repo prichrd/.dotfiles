@@ -9,10 +9,15 @@ alias vi=nvim
 
 export EDITOR="nvim"
 export VISUAL="nvim"
-export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin/:$HOME/go/bin/"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin/:$HOME/go/bin/:$HOME/Work/bin/"
 export WORKSPACE="$HOME/Workspace/"
 
 # Shows hidden files in autocomplete
 setopt globdots
 
 source $ZSH/oh-my-zsh.sh
+
+# Source work zshrc if it exists
+if [ -f $HOME/Work/.zshrc ]; then
+  source $HOME/Work/.zshrc
+end
