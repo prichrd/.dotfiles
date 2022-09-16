@@ -20,4 +20,4 @@ source $ZSH/oh-my-zsh.sh
 # Source work zshrc if it exists
 if [ -f $HOME/Work/.zshrc ]; then
   source $HOME/Work/.zshrc
-end
+fi
