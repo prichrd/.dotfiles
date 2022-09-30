@@ -9,7 +9,7 @@ alias vi=nvim
 
 export EDITOR="nvim"
 export VISUAL="nvim"
-export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin/:$HOME/go/bin/:$HOME/Work/bin/"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin/:$HOME/go/bin/:/usr/local/go/bin"
 export WORKSPACE="$HOME/Workspace/"
 
 # Shows hidden files in autocomplete
