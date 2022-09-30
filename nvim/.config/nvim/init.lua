@@ -12,3 +12,5 @@ vim.opt.shiftwidth = 2
 vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.termguicolors = false
+vim.opt.list = true
+vim.opt.listchars:append "eol:↴"
