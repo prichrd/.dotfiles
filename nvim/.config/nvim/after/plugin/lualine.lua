@@ -3,4 +3,8 @@ if not has_lualine then
   return
 end
 
-lualine.setup({})
+lualine.setup {
+  options = {
+    theme = 'auto',
+  }
+}

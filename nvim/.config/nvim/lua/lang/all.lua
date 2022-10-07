@@ -1,5 +1,7 @@
 local langs = {
   require('lang.go'),
+  require('lang.hcl'),
+  require('lang.json'),
   require('lang.lua'),
 }
 
