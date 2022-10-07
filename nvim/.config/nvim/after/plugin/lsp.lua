@@ -3,7 +3,52 @@ if not has_lspconfig then
   return
 end
 
-local on_attach = function(_, bufnr)
+local has_navic, navic = pcall(require, "nvim-navic")
+if has_navic then
+  navic.setup {
+    icons = {
+        File          = " ",
+        Module        = " ",
+        Namespace     = " ",
+        Package       = " ",
+        Class         = " ",
+        Method        = " ",
+        Property      = " ",
+        Field         = " ",
+        Constructor   = " ",
+        Enum          = "練",
+        Interface     = "練",
+        Function      = " ",
+        Variable      = " ",
+        Constant      = " ",
+        String        = " ",
+        Number        = " ",
+        Boolean       = "◩ ",
+        Array         = " ",
+        Object        = " ",
+        Key           = " ",
+        Null          = "ﳠ ",
+        EnumMember    = " ",
+        Struct        = " ",
+        Event         = " ",
+        Operator      = " ",
+        TypeParameter = " ",
+    },
+    highlight = false,
+    separator = " > ",
+    depth_limit = 0,
+    depth_limit_indicator = "..",
+  }
+end
+
+local on_attach = function(client, bufnr)
+  if has_navic then
+    if client.server_capabilities.documentSymbolProvider then
+      print("IT'S ATTACHED")
+      navic.attach(client, bufnr)
+    end
+  end
+
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')

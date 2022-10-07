@@ -1,7 +1,12 @@
+if require "first_load"() then
+  return
+end
+
 require('plugins')
 
 vim.g.mapleader = [[ ]]
 
+vim.opt.cursorline = true
 vim.opt.expandtab = true
 vim.opt.foldlevel = 20
 vim.opt.list = true
@@ -11,6 +16,5 @@ vim.opt.shell = 'zsh'
 vim.opt.shiftwidth = 2
 vim.opt.swapfile = false
 vim.opt.tabstop = 2
-vim.opt.termguicolors = false
-vim.opt.list = true
-vim.opt.listchars:append "eol:↴"
+vim.opt.termguicolors = true
+vim.opt.winbar = "%f"

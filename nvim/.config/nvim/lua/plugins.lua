@@ -2,6 +2,13 @@ local packer = require 'packer'
 
 local use = packer.use
 
+vim.api.nvim_set_keymap(
+  "n",
+  "-",
+  '<cmd>lua require("netrw").open()<CR>',
+  { noremap = true }
+)
+
 return packer.startup(function()
   use('wbthomason/packer.nvim')
 
@@ -53,21 +60,14 @@ return packer.startup(function()
 
   -- Syntax & Colors
   use('morhetz/gruvbox')
+  use('folke/tokyonight.nvim')
   use('kyazdani42/nvim-web-devicons')
   use('nvim-treesitter/nvim-treesitter')
   use('nvim-lualine/lualine.nvim')
-  use{
-    'RRethy/vim-illuminate',
-    config = function() require('illuminate').configure() end
-  }
-  use{
-    "lukas-reineke/indent-blankline.nvim",
-    config = function() require('indent_blankline').setup() end
-  }
 
   -- Libs
   use('nvim-lua/plenary.nvim')
 
-  -- Others
-  use('kyazdani42/nvim-tree.lua')
+  use('~/Workspace/github.com/prichrd/netrw.nvim')
 end)
+
