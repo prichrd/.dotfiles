@@ -3,6 +3,7 @@ if require "first_load"() then
 end
 
 require('plugins')
+require('impatient')
 
 vim.g.mapleader = [[ ]]
 
@@ -18,3 +19,4 @@ vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
 vim.opt.winbar = "%f"
+vim.opt.ch = 0

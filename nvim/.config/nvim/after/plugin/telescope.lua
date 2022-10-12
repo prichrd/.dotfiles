@@ -7,6 +7,7 @@ local actions = require "telescope.actions"
 
 telescope.setup({
   defaults = {
+    border = false,
     file_sorter = require('telescope.sorters').get_fzy_sorter,
     file_ignore_patterns = { '.git/*' },
     mappings = {

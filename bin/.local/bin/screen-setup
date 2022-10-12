@@ -4,3 +4,4 @@ xrandr --listmonitors | grep DP-3-1-5 && \
   xrandr --output eDP-1 --mode 1920x1200 --pos 0x0 --primary --output DP-3-1-5 --mode 2560x1440 --pos 0x0 --left-of eDP-1
 xrandr --listmonitors | grep HDMI-1 && \
   xrandr --output eDP-1 --mode 1920x1200 --pos 0x0 --primary --output HDMI-1 --mode 2560x1440 --pos 0x0 --left-of eDP-1
+feh --background-color #191836
