@@ -2,25 +2,14 @@ local packer = require 'packer'
 
 local use = packer.use
 
-vim.api.nvim_set_keymap(
-  "n",
-  "-",
-  '<cmd>lua require("netrw").open()<CR>',
-  { noremap = true }
-)
-
 return packer.startup(function()
   use('wbthomason/packer.nvim')
 
   -- Editing
-  use {
-    'numToStr/Comment.nvim',
-    config = function() require'Comment'.setup() end
-  }
-  use {
-    'kylechui/nvim-surround',
-    config = function() require'nvim-surround'.setup() end
-  }
+  use('tpope/vim-vinegar')
+  use('numToStr/Comment.nvim')
+  use('kylechui/nvim-surround')
+  use('prichrd/refgo.nvim')
 
   -- Telescope
   use('nvim-telescope/telescope-fzy-native.nvim')
@@ -59,15 +48,20 @@ return packer.startup(function()
   use('fatih/vim-go')
 
   -- Syntax & Colors
-  use('morhetz/gruvbox')
   use('folke/tokyonight.nvim')
   use('kyazdani42/nvim-web-devicons')
   use('nvim-treesitter/nvim-treesitter')
+  use('nvim-treesitter/playground')
   use('nvim-lualine/lualine.nvim')
+  use('folke/trouble.nvim')
+
+  -- Accelerations
+  use('lewis6991/impatient.nvim')
+
+  -- Utils
+  use('prichrd/flagmode.nvim')
 
   -- Libs
   use('nvim-lua/plenary.nvim')
-
-  use('~/Workspace/github.com/prichrd/netrw.nvim')
 end)
 
