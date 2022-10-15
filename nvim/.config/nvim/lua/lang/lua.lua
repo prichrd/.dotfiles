@@ -7,16 +7,18 @@ M.config_treesitter = function(cfg)
 end
 
 M.config_lsp = function(lspconfig, on_attach)
-  local has_luadev, luadev = utils.preq('lua-dev')
-  if not has_luadev then
+  local has_neodev, neodev = utils.preq('neodev')
+  if not has_neodev then
     return
   end
 
-  lspconfig.sumneko_lua.setup(luadev.setup({
+  neodev.setup{}
+
+  lspconfig.sumneko_lua.setup({
     lspconfig = {
       on_attach = on_attach,
     },
-  }))
+  })
 end
 
 M.config_dap = function()

@@ -18,7 +18,7 @@ return packer.startup(function()
   -- LSP
   use('neovim/nvim-lspconfig')
   use('onsails/lspkind.nvim')
-  use('folke/lua-dev.nvim')
+  use('folke/neodev.nvim')
   use('ray-x/lsp_signature.nvim')
 
   -- Debug
