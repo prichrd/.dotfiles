@@ -9,7 +9,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id pavucontrol
 exec --no-startup-id blueman-manager
 exec --no-startup-id screen-setup
-exec --no-startup-id chromium
+exec --no-startup-id brave
 exec --no-startup-id slack
 exec --no-startup-id alacritty
 
@@ -47,7 +47,7 @@ workspace $ws9 output HDMI-1
 workspace $ws10 output eDP-1
 
 assign [class="Alacritty"] $ws1
-assign [class="Chromium"] $ws2
+assign [class="Brave"] $ws2
 assign [class="Slack"] $ws3
 assign [class="Pavucontrol"] $ws9
 assign [class="Blueman"] $ws9
