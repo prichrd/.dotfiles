@@ -1,3 +1,7 @@
+case $(tty) in
+  (/dev/tty[1-9]) exec sway;;
+esac
+
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 ZSH_TMUX_AUTOSTART=true
@@ -6,6 +10,7 @@ plugins=(git tmux fzf kubectl)
 
 alias vim=nvim
 alias vi=nvim
+alias fd=fdfind
 
 export EDITOR="nvim"
 export VISUAL="nvim"

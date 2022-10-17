@@ -12,4 +12,5 @@ vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
 vim.opt.winbar = "%f"
-vim.opt.ch = 0
+vim.opt.scrolloff = 999
+vim.opt.relativenumber = true;

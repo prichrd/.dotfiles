@@ -13,7 +13,7 @@ case "${uname}" in
     Darwin*)    fdcmd="$(which fd)";;
 esac
 
-selected=$($fdcmd .git $BASE_PATH --hidden --follow --type d | xargs dirname | fzf -q "$1")
+selected=$($fdcmd "\.git" $BASE_PATH --hidden --follow --type d --max-depth=4 | xargs dirname | sort | uniq | fzf -q "$1")
 if [[ -z $selected ]]; then
     exit 0
 fi
