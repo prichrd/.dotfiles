@@ -1,6 +1,10 @@
 set $mod Mod4
 
 set $term alacritty
+set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $bgimage ~/Pictures/bg.jpg
+set $lock swaylock -f -i $bgimage
+
 set $left h
 set $down j
 set $up k
@@ -16,7 +20,6 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 set $bg #1a1b26
 set $red #f7768e
@@ -41,7 +44,11 @@ font pango: JetbrainsMono Nerd Font Mono 9
 output $s1 pos 0 0
 output $s2 pos 0 0
 output $s3 pos 2560 0
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg $bgimage fill
+
+input "type:keyboard" {
+  xkb_options caps:escape
+}
 
 workspace $ws1 output $s1 $s2
 workspace $ws2 output $s1 $s2
@@ -61,9 +68,9 @@ exec --no-startup-id brave
 exec --no-startup-id slack
 exec --no-startup-id alacritty
 exec swayidle -w \
-     timeout 60 'swaylock -f -c 000000' \
+     timeout 300 $lock \
      timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-     before-sleep 'swaylock -f -c 000000'
+     before-sleep $lock
 
 floating_modifier $mod normal
 bindsym $mod+x kill
@@ -71,6 +78,7 @@ bindsym $mod+space exec $menu
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 bindsym $mod+Shift+s exec slurp | grim -g - - | wl-copy
+bindsym $mod+Shift+q exec $lock
 
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
