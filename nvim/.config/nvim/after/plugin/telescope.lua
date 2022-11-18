@@ -4,8 +4,6 @@ if not has_telescope then
 end
 
 local actions = require "telescope.actions"
-local fb_actions = require "telescope".extensions.file_browser.actions
-local manatee_actions = require "telescope".extensions.manatee.actions
 
 telescope.setup({
   defaults = {
@@ -33,36 +31,12 @@ telescope.setup({
       override_generic_sorter = false,
       override_file_sorter = true,
     },
-    file_browser = {
-      theme = "ivy",
-      path = "%:p:h",
-      cwd_to_path = true,
-      hide_parent_dir = true,
-      hijack_netrw = true,
-      select_buffer = true,
-      grouped = true,
-      hidden = true,
-      mappings = {
-        ["n"] = {
-          ["-"] = fb_actions.goto_parent_dir,
-          ["%"] = fb_actions.create,
-          ["d"] = fb_actions.create,
-          ["m"] = fb_actions.move,
-          ["R"] = fb_actions.rename,
-          ["D"] = fb_actions.remove,
-          ["p"] = manatee_actions.set_vwd,
-        },
-        ["i"] = {},
-      },
-    },
   },
 })
 
-telescope.load_extension('file_browser')
 telescope.load_extension('manatee')
 
 local opts = { noremap = true, silent = true }
-vim.api.nvim_set_keymap('n', '-', '<cmd>lua require"telescope".extensions.manatee.file_browser{ initial_mode = "normal" }<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>ff', '<cmd>lua require"telescope".extensions.manatee.find_files{}<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>fg', '<cmd>lua require"telescope".extensions.manatee.live_grep{}<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>fb', '<cmd>lua require("telescope.builtin").buffers()<CR>', opts)

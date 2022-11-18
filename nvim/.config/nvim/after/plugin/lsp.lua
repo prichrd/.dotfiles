@@ -23,7 +23,4 @@ local on_attach = function(_, bufnr)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 end
 
---
--- Configure language specific settings
---
 require('lang.all').config_lsp(lspconfig, on_attach)
