@@ -2,7 +2,7 @@ set $mod Mod4
 
 set $term alacritty
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
-set $bgimage ~/Pictures/bg.jpg
+set $bgimage ~/.local/share/backgrounds/nw.jpg
 set $lock swaylock -f -i $bgimage
 
 set $left h
@@ -58,8 +58,8 @@ workspace $ws5 output $s1 $s2
 workspace $ws6 output $s1 $s2
 workspace $ws7 output $s1 $s2
 workspace $ws8 output $s1 $s2
-workspace $ws9 output $s1 $s2
-workspace $ws10 output eDP-1
+workspace $ws9 output $s3
+workspace $ws10 output $s3
 
 exec --no-startup-id tmux kill-server
 exec --no-startup-id pavucontrol
@@ -79,6 +79,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 bindsym $mod+Shift+s exec slurp | grim -g - - | wl-copy
 bindsym $mod+Shift+q exec $lock
+bindsym $mod+Shift+n exec dunstctl close-all
 
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down

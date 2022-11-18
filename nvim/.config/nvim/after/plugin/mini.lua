@@ -3,6 +3,7 @@ require('mini.align').setup{}
 require('mini.comment').setup{}
 require('mini.completion').setup{}
 require('mini.cursorword').setup{}
+require('mini.doc').setup{}
 require('mini.jump').setup{}
 require('mini.jump2d').setup{}
 require('mini.pairs').setup{}

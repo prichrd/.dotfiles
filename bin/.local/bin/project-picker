@@ -6,7 +6,6 @@ if [[ -z $BASE_PATH ]]; then
     exit 0
 fi
 
-
 uname="$(uname -s)"
 case "${uname}" in
     Linux*)     fdcmd="$(which fdfind)";;
