@@ -64,7 +64,7 @@ workspace $ws10 output $s3
 exec --no-startup-id tmux kill-server
 exec --no-startup-id pavucontrol
 exec --no-startup-id blueman-manager
-exec --no-startup-id brave
+exec --no-startup-id chromium
 exec --no-startup-id slack
 exec --no-startup-id alacritty
 exec swayidle -w \
@@ -102,7 +102,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 assign [class="Alacritty"] $ws1
-assign [class="Brave"] $ws2
+assign [class="Chromium"] $ws2
 assign [class="Slack"] $ws3
 assign [class="Pavucontrol"] $ws9
 assign [class="Blueman"] $ws9
