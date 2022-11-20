@@ -10,7 +10,6 @@ plugins=(git tmux fzf kubectl)
 
 alias vim=nvim
 alias vi=nvim
-alias fd=fdfind
 
 export EDITOR="nvim"
 export VISUAL="nvim"
@@ -25,6 +24,6 @@ setopt noautocd # Prevent autocd-ing when input is directory name
 source $ZSH/oh-my-zsh.sh
 
 # Source work zshrc if it exists
-if [ -f $HOME/Work/.zshrc ]; then
-  source $HOME/Work/.zshrc
+if [ -f $HOME/.work/.zshrc ]; then
+  source $HOME/.work/.zshrc
 fi
