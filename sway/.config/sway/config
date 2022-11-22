@@ -2,7 +2,7 @@ set $mod Mod4
 
 set $term alacritty
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
-set $bgimage ~/.local/share/backgrounds/nw.jpg
+set $bgimage ~/.local/share/backgrounds/tn.jpg
 set $lock swaylock -f -i $bgimage
 
 set $left h
@@ -61,22 +61,19 @@ workspace $ws8 output $s1 $s2
 workspace $ws9 output $s3
 workspace $ws10 output $s3
 
-exec --no-startup-id tmux kill-server
+exec --no-startup-id dunst
+exec --no-startup-id swayidle -w timeout 300 $lock timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep $lock
 exec --no-startup-id pavucontrol
-exec --no-startup-id blueman-manager
+exec --no-startup-id tmux kill-server
 exec --no-startup-id chromium
 exec --no-startup-id slack
-exec --no-startup-id alacritty
-exec swayidle -w \
-     timeout 300 $lock \
-     timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-     before-sleep $lock
+exec --no-startup-id $term
 
 floating_modifier $mod normal
 bindsym $mod+x kill
 bindsym $mod+space exec $menu
 bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' -B 'Yes, exit sway' 'swaymsg exit'
 bindsym $mod+Shift+s exec slurp | grim -g - - | wl-copy
 bindsym $mod+Shift+q exec $lock
 bindsym $mod+Shift+n exec dunstctl close-all
@@ -101,11 +98,10 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-assign [class="Alacritty"] $ws1
+assign [app_id="Alacritty"] $ws1
 assign [class="Chromium"] $ws2
 assign [class="Slack"] $ws3
-assign [class="Pavucontrol"] $ws9
-assign [class="Blueman"] $ws9
+assign [class="Pavucontrol"] $ws10
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
@@ -154,6 +150,7 @@ client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
 
 bar {
   position bottom
+  swaybar_command waybar
   status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
 
   colors {

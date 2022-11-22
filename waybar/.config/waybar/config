@@ -1,0 +1,24 @@
+{
+    "position": "bottom",
+    "height": 10,
+    "spacing": 0,
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["sway/window"],
+    "modules-right": ["pulseaudio", "battery", "clock"],
+    "battery": {
+        "bat": "BAT0",
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "BAT: {capacity}%",
+    },
+    "clock": {
+      "format": "{:%Y-%m-%d %H:%M}"
+    },
+    "pulseaudio": {
+      "format": "VOL: {volume}%",
+      "format-muted": "0%",
+    }
+}

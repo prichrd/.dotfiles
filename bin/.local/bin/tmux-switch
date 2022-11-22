@@ -1,9 +1,0 @@
-#!/bin/bash
-set -e
-
-selected=$(tmux list-sessions | cut -d: -f1 | fzf)
-if [[ -z $selected ]]; then
-    exit 0
-fi
-
-tmux switch -t "$selected"
