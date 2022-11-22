@@ -6,11 +6,7 @@ if [[ -z $BASE_PATH ]]; then
     exit 0
 fi
 
-uname="$(uname -s)"
-case "${uname}" in
-    Linux*)     fdcmd="$(which fdfind)";;
-    Darwin*)    fdcmd="$(which fd)";;
-esac
+fdcmd=fd
 
 selected=$($fdcmd "\.git" $BASE_PATH --hidden --follow --type d --max-depth=4 | xargs dirname | sort | uniq | fzf -q "$1")
 if [[ -z $selected ]]; then
