@@ -7,6 +7,9 @@ netrw.setup{
   mappings = {
     ["p"] = function(payload)
       require'manatee'.set_vwd(payload.dir, true)
+    end,
+    ["pp"] = function(payload)
+      print(vim.inspect(payload))
     end
   },
 }
