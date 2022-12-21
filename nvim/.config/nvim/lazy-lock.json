@@ -1,0 +1,11 @@
+{
+  "gitsigns.nvim": { "branch": "main", "commit": "2ab3bdf0a40bab53033048c6be75bda86316b55d" },
+  "lazy.nvim": { "branch": "main", "commit": "58f0876e81881c487ea10e393fa828a1c45c74f4" },
+  "mini.nvim": { "branch": "main", "commit": "eb1c4885ca858c2897909fa5131ba1cbf5910523" },
+  "netrw.nvim": { "branch": "master", "commit": "891890d11603d701bbc1f379f817a47711f39ecc" },
+  "nvim-web-devicons": { "branch": "master", "commit": "05e1072f63f6c194ac6e867b567e6b437d3d4622" },
+  "plenary.nvim": { "branch": "master", "commit": "4b7e52044bbb84242158d977a50c4cbcd85070c7" },
+  "telescope.nvim": { "branch": "master", "commit": "e960efa60e97df58e089b00270f09d60f27202c8" },
+  "tokyonight.nvim": { "branch": "main", "commit": "8b55a47165348dd1d811f9e1f867bb17bb35a360" },
+  "vim-vinegar": { "branch": "master", "commit": "bb1bcddf43cfebe05eb565a84ab069b357d0b3d6" }
+}
