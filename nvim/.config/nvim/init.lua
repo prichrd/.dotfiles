@@ -1,8 +1,3 @@
-if require "first_load"() then
-  return
-end
-
-require('plugins')
-require('options')
-require('keymaps')
-require('impatient')
+require('pr.keymaps')
+require('pr.options')
+require('pr.plugins')
