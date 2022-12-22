@@ -1,12 +1,12 @@
-local luasnip = require'luasnip'
-local parse_snippet = luasnip.parser.parse_snippet
-
 local ft_snippets = {
   go = {
-    parse_snippet("todo", "// TODO: $0"),
+    todo = "// TODO: $0",
   },
   rust = {
-    parse_snippet("todo", "// TODO: $0"),
+    todo = "// TODO: $0",
+  },
+  lua = {
+    todo = "-- TODO: $0",
   },
 }
 
@@ -14,7 +14,7 @@ local M = {}
 
 M.ftypes = function()
   ftypes = {}
-  for k, _ in pairs(ft_lsp) do
+  for k, _ in pairs(ft_snippets) do
     table.insert(ftypes, k)
   end
   return ftypes
@@ -22,15 +22,21 @@ end
 
 M.setup = function()
   local luasnip = require'luasnip'
+  local parse_snippet = luasnip.parser.parse_snippet
+
   luasnip.setup{}
-  for k, v in pairs(ft_lsp) do
-    luasnip.add_snippets(k, v)
+  for lang, snippets in pairs(ft_snippets) do
+    local lang_snippets = {}
+    for hook, snippet in pairs(snippets) do
+      table.insert(lang_snippets, parse_snippet(hook, snippet))
+    end
+    luasnip.add_snippets(lang, lang_snippets)
   end
 
   vim.cmd[[
   " press <Tab> to expand or jump in a snippet. These can also be mapped separately
   " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
-  imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
+  imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
   " -1 for jumping backwards.
   inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
 
