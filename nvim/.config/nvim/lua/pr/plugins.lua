@@ -12,16 +12,6 @@ end
 vim.opt.runtimepath:prepend(lazypath)
 
 require('lazy').setup({
-  checker = {
-    enabled = true,
-  },
-  install = {
-    colorscheme = {},
-  },
-  dev = {
-    path = "~/Workspace",
-    patterns = {"prichrd"}
-  },
 
   {
     'folke/tokyonight.nvim',
@@ -138,6 +128,9 @@ require('lazy').setup({
 
   {
     'neovim/nvim-lspconfig',
+    dependencies = {
+      'folke/neodev.nvim',
+    },
     ft = require'pr.lsp'.ftypes(),
     config = function() require'pr.lsp'.setup() end,
   },
@@ -146,5 +139,16 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     ft = require'pr.treesitter'.ftypes(),
     config = function() require'pr.treesitter'.setup() end,
+  },
+
+}, {
+  checker = {
+    enabled = true,
+  },
+  install = {
+    colorscheme = {},
+  },
+  dev = {
+    path = "~/Workspace/github.com/prichrd/",
   },
 })

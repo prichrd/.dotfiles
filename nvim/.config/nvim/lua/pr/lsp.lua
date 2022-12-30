@@ -1,6 +1,7 @@
 local ft_lsp = {
   go = "gopls",
   rust = "rust_analyzer",
+  lua = "sumneko_lua",
 }
 
 local lsp_flags = {
@@ -8,6 +9,8 @@ local lsp_flags = {
 }
 
 local on_attach = function(client, bufnr)
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
   local buf_opts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', '<C-f>', function() vim.lsp.buf.format { async = true } end, opts)
@@ -30,6 +33,7 @@ end
 
 M.setup = function()
   local lc = require'lspconfig'
+  require'neodev'.setup()
   for _, v in pairs(ft_lsp) do
     lc[v].setup{
       flags = lsp_flags,
