@@ -11,7 +11,7 @@ local lsp_flags = {
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  local buf_opts = { noremap = true, silent = true, buffer = bufnr }
+  local opts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', '<C-f>', function() vim.lsp.buf.format { async = true } end, opts)
   vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, opts)
@@ -24,7 +24,7 @@ end
 local M = {}
 
 M.ftypes = function()
-  ftypes = {}
+  local ftypes = {}
   for k, _ in pairs(ft_lsp) do
     table.insert(ftypes, k)
   end

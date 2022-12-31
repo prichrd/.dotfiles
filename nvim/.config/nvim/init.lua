@@ -1,3 +1,3 @@
-require('pr.keymaps')
-require('pr.options')
-require('pr.plugins')
+require'pr.keymaps'
+require'pr.options'
+require'pr.plugins'

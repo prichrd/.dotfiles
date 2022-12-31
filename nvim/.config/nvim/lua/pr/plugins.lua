@@ -11,7 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
-require('lazy').setup({
+require'lazy'.setup({
 
   {
     'folke/tokyonight.nvim',
@@ -46,23 +46,23 @@ require('lazy').setup({
   {
     'echasnovski/mini.nvim',
     init = function()
-      require('mini.ai').setup{}
-      require('mini.align').setup{}
-      require('mini.comment').setup{}
-      require('mini.completion').setup{}
-      require('mini.cursorword').setup{}
-      require('mini.doc').setup{}
-      require('mini.jump').setup{}
-      require('mini.jump2d').setup{}
-      require('mini.statusline').setup{}
-      require('mini.trailspace').setup{}
-      require('mini.indentscope').setup{
+      require'mini.ai'.setup{}
+      require'mini.align'.setup{}
+      require'mini.comment'.setup{}
+      require'mini.completion'.setup{}
+      require'mini.cursorword'.setup{}
+      require'mini.doc'.setup{}
+      require'mini.jump'.setup{}
+      require'mini.jump2d'.setup{}
+      require'mini.statusline'.setup{}
+      require'mini.trailspace'.setup{}
+      require'mini.indentscope'.setup{
         draw = {
           delay = 0,
           animation = function() return 0 end,
         }
       }
-      require('mini.surround').setup{
+      require'mini.surround'.setup{
         mappings = {
           add = 'ca',
           delete = 'ds',
@@ -110,6 +110,7 @@ require('lazy').setup({
       })
       telescope.load_extension('manatee')
 
+      local opts = { noremap = true, silent = true }
       vim.keymap.set('n', '<Leader>ff', require'telescope'.extensions.manatee.find_files, opts)
       vim.keymap.set('n', '<Leader>fg', require'telescope'.extensions.manatee.live_grep, opts)
       vim.keymap.set('n', '<Leader>fb', require'telescope.builtin'.buffers, opts)
