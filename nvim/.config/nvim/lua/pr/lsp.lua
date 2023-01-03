@@ -1,5 +1,6 @@
 local ft_lsp = {
   go = "gopls",
+  c = "clangd",
   rust = "rust_analyzer",
   lua = "sumneko_lua",
 }
