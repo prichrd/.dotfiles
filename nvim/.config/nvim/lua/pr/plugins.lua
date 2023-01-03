@@ -122,6 +122,15 @@ require'lazy'.setup({
   },
 
   {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      'leoluz/nvim-dap-go'
+    },
+    ft = require'pr.debug'.ftypes(),
+    config = function() require'pr.debug'.setup() end
+  },
+
+  {
     'l3mon4d3/luasnip',
     ft = require'pr.snippets'.ftypes(),
     config = function() require'pr.snippets'.setup() end
