@@ -6,7 +6,7 @@ local ft_snippets = {
     ["fn"] = "func $1($2){\n\t$0\n}",
     ["fori"] = "for ${1:i} := 0; $1 < ${2:count}; ${1}++ {\n\t$0\n}",
     ["forr"] = "for ${1:k, v} := range ${2:arr} {\n\t$0\n}",
-    ["ie"] = "if err != nil {\n\treturn ${0:nil}, err\n}",
+    ["ife"] = "if err != nil {\n\treturn ${0:nil}, err\n}",
     ["if"] = "if ${1:true} {\n\t$0\n}",
     ["int"] = "type ${1:Name} interface {\n\t$0\n}",
     ["main"] = "package main\n\nfunc main() {\n\t$0\n}",

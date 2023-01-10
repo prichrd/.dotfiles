@@ -1,12 +1,6 @@
 #!/bin/bash
 
-# Script inspired by The Primagen's tmux-sessionizer script. It lauches an fzf
-# fuzzy finder on my workspace directory to find git repositories. It will then
-# start a new tmux session for the selected project if it doesn't already exists.
-
-set -e
-
-selected=$(project-picker "$WORKSPACE")
+selected=$(fd --no-ignore -H -g ".git" "${HOME}/Workspace" -x 'echo' '{//}' | fzf)
 selected_name=$(basename "$selected" | tr . _)
 
 if [[ -z $TMUX ]]; then
