@@ -31,8 +31,8 @@ set $aqua #7dcfff
 set $gray #a89984
 set $darkgray #1d2021
 
-set $s1 DP-6
-set $s2 DP-7
+set $s1 DP-7
+set $s2 DP-8
 set $s3 eDP-1
 
 include /etc/sway/config-vars.d/*
@@ -41,25 +41,33 @@ for_window [class="^.*"] border pixel 0
 default_border none
 font pango: JetbrainsMono Nerd Font Mono 9
 
-output $s1 pos 0 0
-output $s2 pos 0 0
-output $s3 pos 2560 0
-output * bg $bgimage fill
-
 input "type:keyboard" {
   xkb_options caps:escape
 }
 
-workspace $ws1 output $s1 $s2
-workspace $ws2 output $s1 $s2
-workspace $ws3 output $s1 $s2
-workspace $ws4 output $s1 $s2
-workspace $ws5 output $s1 $s2
-workspace $ws6 output $s1 $s2
-workspace $ws7 output $s1 $s2
-workspace $ws8 output $s1 $s2
+output $s1 pos 0 0
+output $s1 transform 90
+output $s2 pos 1440 750
+output $s3 pos 4000 1000
+output * bg $bgimage fill
+
+workspace $ws4 output $s1
+workspace $ws5 output $s1
+workspace $ws6 output $s1
+
+workspace $ws1 output $s2
+workspace $ws2 output $s2
+workspace $ws3 output $s2
+
+workspace $ws7 output $s3
+workspace $ws8 output $s3
 workspace $ws9 output $s3
 workspace $ws10 output $s3
+
+assign [app_id="Alacritty"] $ws1
+assign [class="Chromium"] $ws2
+assign [class="Slack"] $ws3
+assign [class="Pavucontrol"] $ws10
 
 exec --no-startup-id dunst
 exec --no-startup-id swayidle -w timeout 300 $lock timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep $lock
@@ -97,11 +105,6 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-
-assign [app_id="Alacritty"] $ws1
-assign [class="Chromium"] $ws2
-assign [class="Slack"] $ws3
-assign [class="Pavucontrol"] $ws10
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
