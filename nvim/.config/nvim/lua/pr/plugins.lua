@@ -55,35 +55,25 @@ require 'lazy'.setup({
   {
     'prichrd/netrw.nvim',
     ft = 'netrw',
-    init = function() require 'netrw'.setup{
-    mappings = {
-      ["p"] = function(payload)
-        require'manatee'.set_vwd(payload.dir, true)
-      end,
-      ["pp"] = function(_)
-         vim.ui.input({ prompt = 'Enter filename: ' }, function(fname)
-           local ok, fd = pcall(vim.loop.fs_open, fname, "w", 420)
-           if not ok then
-             vim.notify("error creating file", vim.log.levels.ERROR)
-             return
-           end
-           vim.loop.fs_close(fd)
-           vim.fn.execute[[normal "\<Plug>NetrwRefresh"]]
-         end)
-      end,
-    },
-  } end,
+    init = function() require 'netrw'.setup {
+        mappings = {
+          ["p"] = function(payload)
+            require 'manatee'.set_vwd(payload.dir, true)
+          end,
+        },
+      }
+    end,
     dependencies = {
       'nvim-tree/nvim-web-devicons',
       'tpope/vim-vinegar',
     },
   },
-  { 'fatih/vim-go' },
+  -- { 'fatih/vim-go' },
   { 'tpope/vim-fugitive' },
   {
     'simrat39/symbols-outline.nvim',
-    cmd = {'SymbolsOutline'},
-    config = function() require'symbols-outline'.setup{} end,
+    cmd = { 'SymbolsOutline' },
+    config = function() require 'symbols-outline'.setup {} end,
   },
   {
     'prichrd/refgo.nvim',
