@@ -12,7 +12,6 @@ end
 vim.opt.runtimepath:prepend(lazypath)
 
 require 'lazy'.setup({
-
   {
     'folke/tokyonight.nvim',
     lazy = false,
@@ -25,30 +24,7 @@ require 'lazy'.setup({
   {
     'lewis6991/gitsigns.nvim',
     init = function()
-      local gs = require 'gitsigns'
-      gs.setup {
-        on_attach = function(bufnr)
-          local function map(mode, l, r, opts)
-            opts = opts or {}
-            opts.buffer = bufnr
-            vim.keymap.set(mode, l, r, opts)
-          end
-
-          map('n', ']h', function()
-            if vim.wo.diff then return ']h' end
-            vim.schedule(function() gs.next_hunk() end)
-            return '<Ignore>'
-          end, { expr = true })
-          map('n', '[h', function()
-            if vim.wo.diff then return '[h' end
-            vim.schedule(function() gs.prev_hunk() end)
-            return '<Ignore>'
-          end, { expr = true })
-          map('n', '<Leader>gh', gs.preview_hunk)
-          map('n', '<Leader>gd', gs.diffthis)
-          map('n', '<Leader>gb', function() gs.blame_line { full = false } end)
-        end
-      }
+      require 'gitsigns'.setup {}
     end,
   },
 
@@ -66,15 +42,10 @@ require 'lazy'.setup({
     dependencies = {
       'nvim-tree/nvim-web-devicons',
       'tpope/vim-vinegar',
+      'prichrd/manatee.nvim',
     },
   },
-  -- { 'fatih/vim-go' },
-  { 'tpope/vim-fugitive' },
-  {
-    'simrat39/symbols-outline.nvim',
-    cmd = { 'SymbolsOutline' },
-    config = function() require 'symbols-outline'.setup {} end,
-  },
+
   {
     'prichrd/refgo.nvim',
     cmd = { 'RefGo', 'RefCopy' },
@@ -83,21 +54,19 @@ require 'lazy'.setup({
   {
     'echasnovski/mini.nvim',
     init = function()
-      require 'mini.ai'.setup {}
-      require 'mini.align'.setup {}
       require 'mini.comment'.setup {}
       require 'mini.completion'.setup {}
       require 'mini.cursorword'.setup {}
-      require 'mini.doc'.setup {}
-      require 'mini.jump'.setup {}
-      require 'mini.jump2d'.setup {}
+      require 'mini.tabline'.setup {}
+      require 'mini.bufremove'.setup {}
       require 'mini.statusline'.setup {}
       require 'mini.trailspace'.setup {}
       require 'mini.indentscope'.setup {
         draw = {
           delay = 0,
           animation = function() return 0 end,
-        }
+        },
+        symbol = '│',
       }
       require 'mini.surround'.setup {
         mappings = {
@@ -127,7 +96,12 @@ require 'lazy'.setup({
       local actions = require 'telescope.actions'
       telescope.setup({
         defaults = {
+          border = false,
           file_ignore_patterns = { '.git/' },
+          layout_strategy = 'bottom_pane',
+          layout_config = {
+            prompt_position = 'bottom'
+          },
           mappings = {
             i = {
               ["<C-j>"] = actions.move_selection_next,
@@ -161,7 +135,8 @@ require 'lazy'.setup({
   {
     'mfussenegger/nvim-dap',
     dependencies = {
-      'leoluz/nvim-dap-go'
+      'leoluz/nvim-dap-go',
+      'rcarriga/nvim-dap-ui'
     },
     ft = require 'pr.debug'.ftypes(),
     config = function() require 'pr.debug'.setup() end
@@ -187,6 +162,9 @@ require 'lazy'.setup({
     ft = require 'pr.treesitter'.ftypes(),
     config = function() require 'pr.treesitter'.setup() end,
   },
+
+  { 'tpope/vim-fugitive' },
+  { 'tpope/vim-dadbod' },
 
 }, {
   checker = {
