@@ -16,7 +16,6 @@ M.setup = function()
   ts.setup {
     ensure_installed = ft,
     highlight = {
-      -- `false` will disable the whole extension
       enable = true,
     },
     disable = function(_, buf)
@@ -27,6 +26,11 @@ M.setup = function()
         end
     end,
   }
+  vim.cmd[[
+    set foldmethod=expr
+    set foldexpr=nvim_treesitter#foldexpr()
+    set nofoldenable
+  ]]
 end
 
 return M

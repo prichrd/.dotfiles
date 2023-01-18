@@ -11,4 +11,3 @@ vim.opt.shiftwidth = 2
 vim.opt.swapfile = false
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
-vim.opt.winbar = "%f"

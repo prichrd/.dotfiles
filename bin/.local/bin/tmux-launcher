@@ -1,19 +1,45 @@
 #!/bin/bash
 
-selected=$(fd --no-ignore -H -g ".git" "${HOME}/Workspace" -x 'echo' '{//}' | fzf)
+set -x
+
+selected=$(fd --follow --no-ignore -H -g --regex "^(.git|.gitworktree)$" "${HOME}/Workspace" -x 'echo' '{//}' | fzf)
+if [ -z "$selected" ]; then
+  exit 0
+fi
+
+
 selected_name=$(basename "$selected" | tr . _)
 
+if [[ -f "$selected/.gitworktree" ]]; then
+  cd "$selected" && git fetch origin 'refs/heads/*:refs/heads/*'
+  current_branch=$(cd "$selected" && git rev-parse --abbrev-ref HEAD)
+  selected_branch=$(cd "$selected" && git branch --format='%(refname:short)' | fzf -q "$current_branch")
+  if [ -z "$selected_branch" ]; then
+    exit 0
+  fi
+  composite_name="$selected_name/$selected_branch"
+  selected_path="$selected/work/$selected_branch"
+  if [[ -f "$selected_path" ]]; then
+    echo "Exists"
+  else
+    cd "$selected" && git worktree add "$selected_path" "$selected_branch"
+  fi
+else
+  selected_path="$selected"
+  composite_name="$selected_name"
+fi
+
 if [[ -z $TMUX ]]; then
-    tmux new-session -s $selected_name -c $selected
+    tmux new-session -s $composite_name -c $selected_path
     exit 0
 fi
 
-if ! tmux has-session -t $selected_name 2> /dev/null; then
-    tmux new-session -ds $selected_name -c $selected
+if ! tmux has-session -t="$composite_name" 2> /dev/null; then
+    tmux new-session -ds $composite_name -c $selected_path
 fi
 
 if [[ -z $TMUX ]]; then
-    tmux attach-session -t $selected_name
+    tmux attach-session -t $composite_name
 else
-    tmux switch-client -t $selected_name
+    tmux switch-client -t $composite_name
 fi
