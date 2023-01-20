@@ -69,13 +69,13 @@ assign [class="Chromium"] $ws2
 assign [class="Slack"] $ws3
 assign [class="Pavucontrol"] $ws10
 
-exec --no-startup-id dunst
-exec --no-startup-id swayidle -w timeout 300 $lock timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep $lock
-exec --no-startup-id pavucontrol
-exec --no-startup-id tmux kill-server
-exec --no-startup-id chromium
-exec --no-startup-id slack
-exec --no-startup-id $term
+# exec --no-startup-id dunst
+# exec --no-startup-id swayidle -w timeout 300 $lock timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep $lock
+# exec --no-startup-id pavucontrol
+# exec --no-startup-id tmux kill-server
+# exec --no-startup-id chromium
+# exec --no-startup-id slack
+# exec --no-startup-id $term
 
 floating_modifier $mod normal
 bindsym $mod+x kill
