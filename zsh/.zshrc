@@ -1,5 +1,5 @@
 case $(tty) in
-  (/dev/tty[1-9]) exec sway;;
+  # (/dev/tty[1-9]) exec sway;;
 esac
 
 export ZSH="$HOME/.oh-my-zsh"
