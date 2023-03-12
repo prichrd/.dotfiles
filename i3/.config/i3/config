@@ -3,14 +3,10 @@ floating_modifier $mod
 
 font pango: JetbrainsMono Nerd Font Mono 9
 
-exec --no-startup-id dex --autostart --environment i3
+set $bgimage ~/.local/share/backgrounds/tn.jpg
+
 exec --no-startup-id tmux kill-server
-exec --no-startup-id nm-applet
-exec --no-startup-id pavucontrol
-exec --no-startup-id blueman-manager
-exec --no-startup-id screen-setup
-exec --no-startup-id brave
-exec --no-startup-id slack
+exec --no-startup-id chromium
 exec --no-startup-id alacritty
 
 bindsym $mod+space exec --no-startup-id dmenu_run
@@ -21,8 +17,7 @@ bindsym $mod+v split v
 bindsym $mod+w layout tabbed
 bindsym $mod+x kill
 bindsym $mod+z split h
-bindsym $mod+ctrl+q exec --no-startup-id i3lock -i $HOME/.background.png
-bindsym $mod+ctrl+s exec --no-startup-id screen-setup
+bindsym $mod+shift+q exec --no-startup-id i3lock -i $bgimage
 
 set $ws1 "1"
 set $ws2 "2"
@@ -35,22 +30,19 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-workspace $ws1 output HDMI-1
-workspace $ws2 output HDMI-1
-workspace $ws3 output HDMI-1
-workspace $ws4 output HDMI-1
-workspace $ws5 output HDMI-1
-workspace $ws6 output HDMI-1
-workspace $ws7 output HDMI-1
-workspace $ws8 output HDMI-1
-workspace $ws9 output HDMI-1
-workspace $ws10 output eDP-1
+workspace $ws1 output DP-2
+workspace $ws2 output DP-2
+workspace $ws3 output DP-2
+workspace $ws4 output DP-2
+workspace $ws5 output DP-2
+workspace $ws6 output DP-0
+workspace $ws7 output DP-0
+workspace $ws8 output DP-0
+workspace $ws9 output DP-0
+workspace $ws10 output DP-0
 
 assign [class="Alacritty"] $ws1
-assign [class="Brave"] $ws2
-assign [class="Slack"] $ws3
-assign [class="Pavucontrol"] $ws9
-assign [class="Blueman"] $ws9
+assign [class="Chromium"] $ws2
 
 # switch to workspace
 bindsym $mod+1 workspace number 1
@@ -82,23 +74,11 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
 
 for_window [class="^.*"] border pixel 0
 set $bg #1a1b26
