@@ -2,7 +2,8 @@ local ft_lsp = {
   go = "gopls",
   c = "clangd",
   rust = "rust_analyzer",
-  lua = "sumneko_lua",
+  javascript = "tsserver",
+  lua = "lsp_lua",
 }
 
 local lsp_flags = {
@@ -17,8 +18,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<C-f>', function() vim.lsp.buf.format { async = true } end, opts)
   vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, opts)
   vim.keymap.set('n', '<Leader>ca', vim.lsp.buf.code_action, opts)
-  vim.keymap.set('n', 'gr', function() require 'telescope.builtin'.lsp_references { show_line = false } end,
-    opts)
+  vim.keymap.set('n', 'gr', function() require 'telescope.builtin'.lsp_references { show_line = false } end, opts)
   vim.keymap.set('n', 'gi', function() require 'telescope.builtin'.lsp_implementations { show_line = false } end, opts)
   vim.keymap.set('n', 'gd', function() require 'telescope.builtin'.lsp_definitions { show_line = false } end, opts)
 end

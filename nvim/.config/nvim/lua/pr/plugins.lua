@@ -57,7 +57,6 @@ require 'lazy'.setup({
       require 'mini.comment'.setup {}
       require 'mini.completion'.setup {}
       require 'mini.cursorword'.setup {}
-      require 'mini.tabline'.setup {}
       require 'mini.bufremove'.setup {}
       require 'mini.statusline'.setup {}
       require 'mini.trailspace'.setup {}
@@ -140,6 +139,26 @@ require 'lazy'.setup({
     },
     ft = require 'pr.debug'.ftypes(),
     config = function() require 'pr.debug'.setup() end
+  },
+
+  {
+    'github/copilot.vim',
+    config = function()
+      vim.cmd[[
+        imap <silent><script><expr> <C-N> copilot#Accept("\<CR>")
+        let g:copilot_no_tab_map = v:true
+      ]]
+    end
+  },
+
+  {
+    'fatih/vim-go',
+    ft = {'go', 'gomod'},
+    config = function()
+      vim.cmd[[
+        let g:go_gopls_enabled = 0
+      ]]
+    end
   },
 
   {
