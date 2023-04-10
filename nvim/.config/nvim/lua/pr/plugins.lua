@@ -145,7 +145,7 @@ require 'lazy'.setup({
     'github/copilot.vim',
     config = function()
       vim.cmd[[
-        imap <silent><script><expr> <C-N> copilot#Accept("\<CR>")
+        imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
         let g:copilot_no_tab_map = v:true
       ]]
     end
