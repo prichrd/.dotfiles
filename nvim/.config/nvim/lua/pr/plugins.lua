@@ -54,6 +54,7 @@ require 'lazy'.setup({
   {
     'echasnovski/mini.nvim',
     init = function()
+      require 'mini.align'.setup {}
       require 'mini.comment'.setup {}
       require 'mini.completion'.setup {}
       require 'mini.cursorword'.setup {}
@@ -141,15 +142,15 @@ require 'lazy'.setup({
     config = function() require 'pr.debug'.setup() end
   },
 
-  {
-    'github/copilot.vim',
-    config = function()
-      vim.cmd[[
-        imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-        let g:copilot_no_tab_map = v:true
-      ]]
-    end
-  },
+  -- {
+  --   'github/copilot.vim',
+  --   config = function()
+  --     vim.cmd[[
+  --       imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+  --       let g:copilot_no_tab_map = v:true
+  --     ]]
+  --   end
+  -- },
 
   {
     'fatih/vim-go',
@@ -165,6 +166,33 @@ require 'lazy'.setup({
     'l3mon4d3/luasnip',
     ft = require 'pr.snippets'.ftypes(),
     config = function() require 'pr.snippets'.setup() end
+  },
+
+  {
+    'williamboman/mason.nvim',
+    dependencies = {
+      'williamboman/mason-lspconfig.nvim',
+      'jay-babu/mason-null-ls.nvim',
+      'jay-babu/mason-nvim-dap.nvim',
+    },
+    config = function() require'pr.mason'.setup() end,
+  },
+
+  {
+    'jose-elias-alvarez/null-ls.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    config = function()
+      local null_ls = require'null-ls';
+      null_ls.setup({
+          sources = {
+            null_ls.builtins.formatting.stylua,
+            null_ls.builtins.diagnostics.revive,
+            null_ls.builtins.diagnostics.luacheck,
+          },
+      })
+    end,
   },
 
   {
@@ -184,7 +212,7 @@ require 'lazy'.setup({
 
   { 'tpope/vim-fugitive' },
   { 'tpope/vim-dadbod' },
-
+  { 'sotte/presenting.vim'}
 }, {
   checker = {
     enabled = true,
