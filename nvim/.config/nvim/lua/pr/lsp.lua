@@ -1,9 +1,7 @@
 local ft_lsp = {
   go = "gopls",
-  c = "clangd",
   rust = "rust_analyzer",
-  javascript = "tsserver",
-  lua = "lsp_lua",
+  lua = "lua_ls",
 }
 
 local lsp_flags = {
