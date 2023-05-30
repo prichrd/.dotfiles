@@ -2,6 +2,12 @@ case $(tty) in
   (/dev/tty[1-9]) exec startx;;
 esac
 
+# MacOS configs
+if [[ $(uname) == "Darwin" ]]; then
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 ZSH_TMUX_AUTOSTART=true
@@ -14,10 +20,7 @@ alias vi=nvim
 
 export EDITOR="nvim"
 export VISUAL="nvim"
-export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin/:$HOME/go/bin/:/usr/local/go/bin:$HOME/Tools/lua-language-server/bin"
-export WORKSPACE="$HOME/Workspace/"
-export XDG_CURRENT_DESKTOP=sway
-export XDG_SESSION_TYPE=wayland
+export PATH="$PATH:$HOME/.local/bin"
 
 setopt globdots # Shows hidden files in autocomplete
 setopt noautocd # Prevent autocd-ing when input is directory name
@@ -26,3 +29,4 @@ setopt noautocd # Prevent autocd-ing when input is directory name
 if [ -f $HOME/.work/.zshrc ]; then
   source $HOME/.work/.zshrc
 fi
+
