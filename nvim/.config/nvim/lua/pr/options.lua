@@ -5,7 +5,6 @@ vim.opt.list = true
 vim.opt.mouse = 'a'
 vim.opt.number = true
 vim.opt.numberwidth = 1
-vim.opt.scrolloff = 999
 vim.opt.shell = 'zsh'
 vim.opt.shiftwidth = 2
 vim.opt.swapfile = false
