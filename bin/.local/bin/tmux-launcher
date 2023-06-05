@@ -1,12 +1,9 @@
 #!/bin/bash
 
-set -x
-
 selected=$(fd --follow --no-ignore -H -g --regex "^(.git|.gitworktree)$" "${HOME}/Workspace" -x 'echo' '{//}' | fzf)
 if [ -z "$selected" ]; then
   exit 0
 fi
-
 
 selected_name=$(basename "$selected" | tr . _)
 
