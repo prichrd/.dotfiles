@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 case $(tty) in
   (/dev/tty[1-9]) exec startx;;
 esac

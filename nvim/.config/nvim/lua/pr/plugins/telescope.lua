@@ -1,0 +1,74 @@
+return {
+	{
+		"nvim-telescope/telescope.nvim",
+		opts = {
+			defaults = {
+				border = false,
+				file_ignore_patterns = { ".git/" },
+				layout_strategy = "bottom_pane",
+				layout_config = {
+					prompt_position = "bottom",
+				},
+			},
+			pickers = {
+				find_files = {
+					hidden = true,
+				},
+				live_grep = {
+					hidden = true,
+				},
+			},
+		},
+		keys = {
+			{
+				"<Leader>fb",
+				function()
+					require("telescope.builtin").buffers()
+				end,
+				desc = "Buffers",
+			},
+			{
+				"<Leader>fh",
+				function()
+					require("telescope.builtin").help_tags()
+				end,
+				desc = "Help tags",
+			},
+			{
+				"<Leader>ff",
+				function()
+					require("telescope.builtin").find_files()
+				end,
+				desc = "Files",
+			},
+			{
+				"<Leader>fg",
+				function()
+					require("telescope.builtin").live_grep()
+				end,
+				desc = "Grep",
+			},
+			{
+				"<Leader>fq",
+				function()
+					require("telescope.builtin").quickfix()
+				end,
+				desc = "Quickfixes",
+			},
+			{
+				"<Leader>fk",
+				function()
+					require("telescope.builtin").keymaps()
+				end,
+				desc = "Keymaps",
+			},
+			{
+				"<Leader>gs",
+				function()
+					require("telescope.builtin").git_status()
+				end,
+				desc = "Git Status",
+			},
+		},
+	},
+}
