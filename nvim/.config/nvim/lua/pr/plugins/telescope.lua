@@ -1,13 +1,24 @@
 return {
 	{
 		"nvim-telescope/telescope.nvim",
+		dependencies = {
+			"prichrd/manatee.nvim",
+		},
+		config = function()
+			require("telescope").setup(require("manatee").telescope)
+		end,
 		opts = {
 			defaults = {
-				border = false,
 				file_ignore_patterns = { ".git/" },
-				layout_strategy = "bottom_pane",
-				layout_config = {
-					prompt_position = "bottom",
+				mappings = {
+					i = {
+						["<C-j>"] = function(bufnr)
+							return require("telescope.actions").move_selection_next(bufnr)
+						end,
+						["<C-k>"] = function(bufnr)
+							return require("telescope.actions").move_selection_previous(bufnr)
+						end,
+					},
 				},
 			},
 			pickers = {
@@ -37,14 +48,16 @@ return {
 			{
 				"<Leader>ff",
 				function()
-					require("telescope.builtin").find_files()
+					return require("telescope").extensions.manatee.find_files()
+					-- require("telescope.builtin").find_files()
 				end,
 				desc = "Files",
 			},
 			{
 				"<Leader>fg",
 				function()
-					require("telescope.builtin").live_grep()
+					return require("telescope").extensions.manatee.live_grep()
+					-- require("telescope.builtin").live_grep()
 				end,
 				desc = "Grep",
 			},

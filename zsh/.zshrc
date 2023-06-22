@@ -20,15 +20,19 @@ PROMPT='%(?:%{$fg[green]%}$:%{$fg[red]%}$) %{$fg[cyan]%}$(shrink_path -f)%{$rese
 alias vim=nvim
 alias vi=nvim
 
+export PATH="$PATH:$HOME/.local/bin:/usr/local/bin:$HOME/go/bin"
 export EDITOR="nvim"
 export VISUAL="nvim"
-export PATH="$PATH:$HOME/.local/bin"
 
 setopt globdots # Shows hidden files in autocomplete
 setopt noautocd # Prevent autocd-ing when input is directory name
+
+# If op command exists
+if command -v op &> /dev/null; then
+  eval "$(op completion zsh)"; compdef _op op
+fi
 
 # Source work zshrc if it exists
 if [ -f $HOME/.work/.zshrc ]; then
   source $HOME/.work/.zshrc
 fi
-

@@ -40,6 +40,9 @@ local ft_snippets = {
 		["todo"] = "-- TODO: $0",
 		["while"] = "while ${1:true} do\n\t$0\nend",
 	},
+  typescript = {
+		["todo"] = "// TODO: $0",
+  },
 	gitcommit = {
 		["ci"] = "ci($1): $2\n\n$0",
 		["fix"] = "fix($1): $2\n\n$0",
