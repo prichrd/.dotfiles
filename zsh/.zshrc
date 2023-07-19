@@ -12,7 +12,9 @@ fi
 
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
-ZSH_TMUX_AUTOSTART=true
+if [ -n "$KITTY_PID" ]; then
+  ZSH_TMUX_AUTOSTART=true
+fi
 plugins=(git tmux fzf kubectl shrink-path)
 source $ZSH/oh-my-zsh.sh
 PROMPT='%(?:%{$fg[green]%}$:%{$fg[red]%}$) %{$fg[cyan]%}$(shrink_path -f)%{$reset_color%} $(git_prompt_info)'
