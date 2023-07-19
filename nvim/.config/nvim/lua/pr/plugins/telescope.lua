@@ -1,12 +1,6 @@
 return {
 	{
 		"nvim-telescope/telescope.nvim",
-		dependencies = {
-			"prichrd/manatee.nvim",
-		},
-		config = function()
-			require("telescope").setup(require("manatee").telescope)
-		end,
 		opts = {
 			defaults = {
 				file_ignore_patterns = { ".git/" },
@@ -48,16 +42,14 @@ return {
 			{
 				"<Leader>ff",
 				function()
-					return require("telescope").extensions.manatee.find_files()
-					-- require("telescope.builtin").find_files()
+					require("telescope.builtin").find_files()
 				end,
 				desc = "Files",
 			},
 			{
 				"<Leader>fg",
 				function()
-					return require("telescope").extensions.manatee.live_grep()
-					-- require("telescope.builtin").live_grep()
+					require("telescope.builtin").live_grep()
 				end,
 				desc = "Grep",
 			},
