@@ -4,13 +4,6 @@ return {
 		opts = {},
 	},
 	{
-		"jay-babu/mason-null-ls.nvim",
-		cmd = "Mason",
-		opts = {
-			ensure_installed = { "jq", "shellcheck", "revive", "stylua", "luacheck" },
-		},
-	},
-	{
 		"jay-babu/mason-nvim-dap.nvim",
 		cmd = "Mason",
 		opts = {

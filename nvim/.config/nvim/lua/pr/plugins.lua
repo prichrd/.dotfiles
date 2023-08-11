@@ -1,6 +1,5 @@
 require("lazy").setup({
   require("pr.plugins.colorscheme"),
-  require("pr.plugins.dap"),
   require("pr.plugins.git"),
   require("pr.plugins.lsp"),
   require("pr.plugins.luasnip"),
@@ -11,16 +10,13 @@ require("lazy").setup({
   require("pr.plugins.treesitter"),
   require("pr.plugins.ai"),
   require("pr.plugins.nav"),
+  -- require("pr.plugins.dap"),
 
   { "fatih/vim-go", ft = "go" },
-  "nvim-lua/plenary.nvim",
-  "sotte/presenting.vim",
-  "tpope/vim-commentary",
-  "tpope/vim-dadbod",
   "tpope/vim-surround",
-  "tpope/vim-vinegar",
-  "mechatroner/rainbow_csv",
   "lewis6991/whatthejump.nvim",
+  "tpope/vim-commentary",
+  "nvim-lua/plenary.nvim",
 }, {
   checker = {
     enabled = true,

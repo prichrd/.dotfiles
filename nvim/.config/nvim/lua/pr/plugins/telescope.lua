@@ -26,6 +26,13 @@ return {
 		},
 		keys = {
 			{
+				"<Leader>fr",
+				function()
+					require("telescope.builtin").resume()
+				end,
+				desc = "Resume previous picker",
+			},
+			{
 				"<Leader>fb",
 				function()
 					require("telescope.builtin").buffers()
