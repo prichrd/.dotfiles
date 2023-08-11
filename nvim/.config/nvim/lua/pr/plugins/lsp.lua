@@ -2,25 +2,6 @@ local fts = { "go", "lua", "typescript", "typescriptreact", "rust" }
 
 return {
 	{
-		"jose-elias-alvarez/null-ls.nvim",
-		ft = fts,
-		config = function()
-			require("null-ls").setup({
-				sources = {
-					require("null-ls").builtins.formatting.stylua,
-					require("null-ls").builtins.diagnostics.revive,
-					require("null-ls").builtins.diagnostics.luacheck,
-				},
-				on_attach = function()
-					local opts = { noremap = true, silent = true }
-					vim.keymap.set("n", "<C-f>", function()
-						vim.lsp.buf.format({ async = true })
-					end, opts)
-				end,
-			})
-		end,
-	},
-	{
 		"folke/neodev.nvim",
 		ft = "lua",
 	},
