@@ -1,4 +1,5 @@
 return {
+  "tpope/vim-vinegar",
   {
     "nvim-neo-tree/neo-tree.nvim",
     dependencies = {
@@ -9,7 +10,6 @@ return {
     opts = {
       close_if_last_window = true,
       filesystem = {
-        follow_current_file = { enabled = true },
         filtered_items = {
           visible = true,
           hide_dotfiles = false,
@@ -22,8 +22,17 @@ return {
     },
     keys = {
       {
-        "-", function() vim.cmd [[Neotree]] end,
+        "<Leader>ef",
+        function() vim.cmd [[Neotree reveal]] end,
       },
+      {
+        "<Leader>eb",
+        function() vim.cmd [[Neotree buffers]] end,
+      },
+      {
+        "<Leader>eg",
+        function() vim.cmd [[Neotree git]] end,
+      }
     }
   },
   {
