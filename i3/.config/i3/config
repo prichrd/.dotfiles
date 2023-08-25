@@ -15,7 +15,7 @@ bindsym $mod+f floating toggle
 bindsym $mod+s layout stacking
 bindsym $mod+v split v
 bindsym $mod+w layout tabbed
-bindsym $mod+x kill
+bindsym $mod+q kill
 bindsym $mod+z split h
 bindsym $mod+shift+q exec --no-startup-id i3lock -i $bgimage
 
@@ -35,11 +35,11 @@ workspace $ws2 output DP-2
 workspace $ws3 output DP-2
 workspace $ws4 output DP-2
 workspace $ws5 output DP-2
-workspace $ws6 output DP-0
-workspace $ws7 output DP-0
-workspace $ws8 output DP-0
-workspace $ws9 output DP-0
-workspace $ws10 output DP-0
+workspace $ws6 output HDMI-1
+workspace $ws7 output HDMI-1
+workspace $ws8 output HDMI-1
+workspace $ws9 output HDMI-1
+workspace $ws10 output HDMI-1
 
 assign [class="Alacritty"] $ws1
 assign [class="Chromium"] $ws2
