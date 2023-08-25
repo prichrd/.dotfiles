@@ -7,7 +7,7 @@ return {
 		"prichrd/netrw.nvim",
 		dev = false,
 		ft = "netrw",
-		dependencies = { "nvim-tree/nvim-web-devicons", "prichrd/manatee.nvim" },
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
 			mappings = {
 				["m"] = function(payload)
