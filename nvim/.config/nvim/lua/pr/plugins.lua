@@ -10,10 +10,10 @@ require("lazy").setup({
   require("pr.plugins.treesitter"),
   require("pr.plugins.ai"),
   require("pr.plugins.nav"),
-  -- require("pr.plugins.dap"),
 
   { "fatih/vim-go", ft = "go" },
   "tpope/vim-surround",
+  "tpope/vim-unimpaired",
   "lewis6991/whatthejump.nvim",
   "tpope/vim-commentary",
   "nvim-lua/plenary.nvim",
