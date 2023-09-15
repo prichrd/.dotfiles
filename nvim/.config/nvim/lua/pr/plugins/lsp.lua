@@ -1,4 +1,4 @@
-local fts = { "go", "lua", "typescript", "typescriptreact", "rust" }
+local fts = { "go", "lua", "typescript", "typescriptreact", "rust", "r", "python" }
 
 return {
 	{
@@ -28,15 +28,6 @@ return {
 				end, opts)
 				vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
 				vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, opts)
-				vim.keymap.set("n", "gr", function()
-					require("telescope.builtin").lsp_references({ show_line = false })
-				end, opts)
-				vim.keymap.set("n", "gi", function()
-					require("telescope.builtin").lsp_implementations({ show_line = false })
-				end, opts)
-				vim.keymap.set("n", "gd", function()
-					require("telescope.builtin").lsp_definitions({ show_line = false })
-				end, opts)
 			end
 
 			lspconfig["gopls"].setup({
@@ -56,6 +47,11 @@ return {
 			})
 
 			lspconfig["rust_analyzer"].setup({
+				flags = lsp_flags,
+				on_attach = on_attach,
+			})
+
+			lspconfig["zls"].setup({
 				flags = lsp_flags,
 				on_attach = on_attach,
 			})

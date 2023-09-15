@@ -7,10 +7,10 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    ft = { "go", "gomod", "rust", "lua", "javascript", "typescript" },
+    ft = { "go", "gomod", "rust", "lua", "javascript", "typescript", "http", "json", "r", "python" },
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "go", "gomod", "rust", "lua", "typescript" },
+        ensure_installed = { "go", "gomod", "rust", "lua", "typescript", "http", "json", "r", "python" },
         highlight = {
           enable = true,
         },

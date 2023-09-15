@@ -1,0 +1,67 @@
+#!/bin/bash
+
+set -e
+
+print_help() {
+  echo "Encrypt and decrypt secrets in local file vault."
+  echo
+  echo "$(basename $0) [n|r|d|s|l]"
+  echo "   n  name of the new secret"
+  echo "   r  name of the secret to read"
+  echo "   d  name of the secret to delete"
+  echo "   s  search through secrets"
+  echo "   l  least secrets"
+}
+
+PW_DIR=$HOME/.pw
+mkdir -p $PW_DIR
+
+cmd="$1"
+secret="$2"
+
+list_secrets() {
+  ls -1A $PW_DIR
+}
+
+search_secrets() {
+  list_secrets | fzf --query "$1"
+}
+
+case "$cmd" in
+    n) # Create a secret
+      if [ -z $secret ]; then
+        printf "secret: " 1>&2
+        read secret
+      fi
+      printf "value: " 1>&2
+      read -s value
+      echo "OK"
+      printf "encrypt '$secret': " 1>&2
+      read -s password
+      echo "OK"
+      echo "$value" | openssl aes-256-cbc -pbkdf2 -a -salt -pass "pass:$password" > $PW_DIR/$secret
+      exit;;
+    r) # Read a secret
+      if [ ! -f "$PW_DIR/$secret" ]; then
+        secret=$(search_secrets $secret)
+      fi
+      printf "decrypt '$secret': " 1>&2
+      read -s password
+      cat "$PW_DIR/$secret" | openssl aes-256-cbc -pbkdf2 -d -a -pass "pass:$password"
+      exit;;
+    d) # Delete a secret
+      if [ ! -f "$PW_DIR/$secret" ]; then
+        secret=$(search_secrets $secret)
+      fi
+      rm -i $PW_DIR/$secret
+      exit;;
+    s) # Searches through secrets
+      search_secrets $2
+      exit;;
+    l) # List secrets
+      list_secrets
+      exit;;
+    *)
+      print_help
+      exit;;
+esac
