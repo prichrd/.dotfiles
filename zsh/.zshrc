@@ -8,11 +8,15 @@ alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
 alias k="kubectl"
+alias kdp="kubectl describe pods"
+alias kgp="kubectl get pods"
+alias kl="kubectl logs"
 alias ls="ls -h --color --group-directories-first"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-export DOCKER_DEFAULT_PLATFORM=linux/amd64
+# export DOCKER_DEFAULT_PLATFORM=linux/amd64
+export DOCKER_DEFAULT_PLATFORM=linux/arm64
 export EDITOR="nvim"
 export VISUAL="nvim"
 
@@ -32,9 +36,14 @@ source /opt/homebrew/Cellar/fzf/0.44.1/shell/key-bindings.zsh
 source /opt/homebrew/Cellar/fzf/0.44.1/shell/completion.zsh
 source <(kubectl completion zsh)
 
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
 bindkey -e
-bindkey '^[[A' up-line-or-search
-bindkey '^[[B' down-line-or-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
 
 if [ -f $HOME/.work/.zshrc ]; then
   source $HOME/.work/.zshrc
