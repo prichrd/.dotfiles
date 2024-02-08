@@ -1,8 +1,12 @@
 #!/bin/zsh
 
-setopt prompt_subst # Allow commands in prompt
-setopt globdots # Shows hidden files in autocomplete
-setopt noautocd # Prevent autocd-ing when input is directory name
+setopt prompt_subst           # Allow commands in prompt
+setopt globdots               # Shows hidden files in autocomplete
+setopt noautocd               # Prevent autocd-ing when input is directory name
+setopt hist_ignore_dups       # Ignore commands made one after the other
+setopt hist_expire_dups_first # Remove duplicate events from history first
+setopt inc_append_history     # Append to history as commands are added, not when shell is exited
+unsetopt share_history        # Don't share history between sessions
 
 alias vim="nvim"
 alias vi="nvim"
