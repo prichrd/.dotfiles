@@ -1,29 +1,18 @@
 #!/bin/bash
 
-selected=$(fd --follow --no-ignore -H -g --regex "^(.git|.gitworktree)$" "${HOME}/Workspace" -x 'echo' '{//}' | fzf)
+workspace="${HOME}/Workspace/"
+selected=$(fd --follow --no-ignore -H -g --regex "^(.git|.gitworktree)$" "$workspace" -x 'echo' '{//}' | sed -u "s#^$workspace##g" | fzf)
 if [ -z "$selected" ]; then
   exit 0
 fi
 
+dirname=$(basename $(dirname "$selected"))
 selected_name=$(basename "$selected" | tr . _)
 
-if [[ -f "$selected/.gitworktree" ]]; then
-  cd "$selected" && git fetch origin 'refs/heads/*:refs/heads/*'
-  current_branch=$(cd "$selected" && git rev-parse --abbrev-ref HEAD)
-  selected_branch=$(cd "$selected" && git branch --format='%(refname:short)' | fzf -q "$current_branch")
-  if [ -z "$selected_branch" ]; then
-    exit 0
-  fi
-  composite_name="$selected_name/$selected_branch"
-  selected_path="$selected/work/$selected_branch"
-  if [[ -f "$selected_path" ]]; then
-    echo "Exists"
-  else
-    cd "$selected" && git worktree add "$selected_path" "$selected_branch"
-  fi
-else
-  selected_path="$selected"
-  composite_name="$selected_name"
+selected_path="$workspace$selected"
+composite_name="$selected_name"
+if [[ "$dirname" =~ \.git$ ]]; then
+  composite_name="$(echo $dirname | cut -d. -f1)/$(basename "$selected" | tr . _)"
 fi
 
 if [[ -z $TMUX ]]; then
