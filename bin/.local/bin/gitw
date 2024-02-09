@@ -1,0 +1,94 @@
+#!/bin/bash
+
+set -e
+
+function get_ssh_git_host {
+  if ! [[ "$1" =~ (.*)@(.*):(.*)\.git ]]; then
+    echo "Expected \"$1\" to have format \"(.*)@(.*):(.*)\.git\"";
+    exit 1;
+  fi
+  echo "$1" | cut -d@ -f2 | cut -d: -f1
+}
+
+function get_ssh_git_repo {
+  if ! [[ "$1" =~ (.*)@(.*):(.*)\.git ]]; then
+    echo "Expected \"$1\" to have format \"(.*)@(.*):(.*)\.git\"";
+    exit 1;
+  fi
+  echo "$1" | cut -d@ -f2 | cut -d: -f2
+}
+
+function ensure_in_git_repo {
+  if git rev-parse --git-dir > /dev/null 2>&1; then
+    return
+  fi
+  bold=$(tput bold)
+  normal=$(tput sgr0)
+  echo "${bold}$(basename $0) $1${normal} has to run inside of a git repo"
+  exit 1
+}
+
+case $1 in
+  "clone")
+    host=$(get_ssh_git_host "$2")
+    repo=$(get_ssh_git_repo "$2")
+    dir="$HOME/Workspace/$host/$repo"
+    echo "=== Bare cloning $2 into ~/Workspace/ ..."
+    mkdir -p $(dirname $dir)
+    git clone --bare "$2" "$dir"
+    pushd "$dir"
+    echo "=== Configuring remotes..."
+    git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    echo "=== Fetching refs..."
+    git fetch
+    echo "=== Adding master worktree..."
+    git worktree add master
+    popd
+    echo "=== Launching tmux session..."
+    tmux-launcher "$host/$repo/master"
+    ;;
+  "branch")
+    echo "TODO"
+    exit 1
+    ;;
+  "remove")
+    ensure_in_git_repo $@
+    if [ -z "$2" ]; then
+      selected=$(gitw list | fzf)
+      if [ -z "$selected" ]; then
+        exit 0
+      fi
+    else
+      selected="$2"
+    fi
+    git worktree remove $selected
+    ;;
+  "list")
+    ensure_in_git_repo $@
+    worktree=$(dirname $(git rev-parse --show-toplevel))
+    git worktree list | tail -n +2 | sed -u "s#$worktree/##g" | awk '{print $1}'
+    ;;
+  *)
+    bold=$(tput bold)
+    normal=$(tput sgr0)
+    cli=$(basename $0)
+    echo "${bold}$cli${normal} is a utility cli for working with git worktrees."
+    echo ""
+    echo "Commands"
+    echo "--------"
+    echo " ${bold}gitw clone <repo>${normal}"
+    echo "   Clones a bare repo into the ~/Workspace directory, initializing"
+    echo "   the master worktree and spawning a tmux session on it."
+    echo ""
+    echo " ${bold}gitw branch <branch>${normal}"
+    echo "   From within a worktree repo, creates or checkouts a branch in a"
+    echo "   new worktree. Once the initialization process is done, a tmux"
+    echo "   session is launched for that worktree."
+    echo ""
+    echo " ${bold}gitw remove <branch>${normal}"
+    echo "   From within a worktree repo, removes a worktree and removes any"
+    echo "   active tmux sessions for it."
+    echo ""
+    echo " ${bold}gitw list${normal}"
+    echo "   From within a worktree repo, lists available worktrees."
+esac
