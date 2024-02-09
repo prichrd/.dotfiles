@@ -1,9 +1,14 @@
 #!/bin/bash
 
 workspace="${HOME}/Workspace/"
-selected=$(fd --follow --no-ignore -H -g --regex "^(.git|.gitworktree)$" "$workspace" -x 'echo' '{//}' | sed -u "s#^$workspace##g" | fzf)
-if [ -z "$selected" ]; then
-  exit 0
+
+if [ -z "$1" ]; then
+  selected=$(fd --follow --no-ignore -H -g --regex "^(.git)$" "$workspace" -x 'echo' '{//}' | sed -u "s#^$workspace##g" | fzf)
+  if [ -z "$selected" ]; then
+    exit 0
+  fi
+else
+  selected="$1"
 fi
 
 dirname=$(basename $(dirname "$selected"))
