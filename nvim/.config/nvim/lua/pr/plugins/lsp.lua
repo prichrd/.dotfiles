@@ -1,4 +1,4 @@
-local fts = { "go", "lua", "typescript", "typescriptreact", "rust", "r", "python" }
+local fts = { "go", "lua" }
 
 return {
 	{
@@ -28,6 +28,9 @@ return {
 				end, opts)
 				vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
 				vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 			end
 
 			lspconfig["gopls"].setup({
@@ -39,30 +42,6 @@ return {
 			lspconfig["lua_ls"].setup({
 				flags = lsp_flags,
 				on_attach = on_attach,
-			})
-
-			lspconfig["gopls"].setup({
-				flags = lsp_flags,
-				on_attach = on_attach,
-			})
-
-			lspconfig["rust_analyzer"].setup({
-				flags = lsp_flags,
-				on_attach = on_attach,
-			})
-
-			lspconfig["zls"].setup({
-				flags = lsp_flags,
-				on_attach = on_attach,
-			})
-
-			lspconfig["tsserver"].setup({
-				flags = lsp_flags,
-				on_attach = function(client, bufnr)
-					client.server_capabilities.documentFormattingProvider = false
-					client.server_capabilities.documentRangeFormattingProvider = false
-					on_attach(client, bufnr)
-				end,
 			})
 		end,
 	},
