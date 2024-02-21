@@ -56,5 +56,7 @@ colors:
     - { index: 17, color: '0xdb4b4b' }
 
 key_bindings:
-  - { key: V, mods: Control, action: Paste }
-  - { key: V, mods: Control|Shift, action: ReceiveChar }
+  - { key: Left,     mods: Alt,           chars: "\x1bb"      }
+  - { key: Right,    mods: Alt,           chars: "\x1bf"      }
+  - { key: V,        mods: Control,       action: Paste       }
+  - { key: V,        mods: Control|Shift, action: ReceiveChar }

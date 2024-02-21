@@ -1,5 +1,0 @@
-#!/bin/bash
-
-tmux display-menu \
-  -T "Automator"  \
-  "Nuke All" k "kill-session -a -t0"

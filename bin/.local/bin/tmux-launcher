@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 workspace="${HOME}/Workspace/"
 
 if [ -z "$1" ]; then
@@ -12,13 +14,8 @@ else
 fi
 
 dirname=$(basename $(dirname "$selected"))
-selected_name=$(basename "$selected" | tr . _)
-
 selected_path="$workspace$selected"
-composite_name="$selected_name"
-if [[ "$dirname" =~ \.git$ ]]; then
-  composite_name="$(echo $dirname | cut -d. -f1)/$(basename "$selected" | tr . _)"
-fi
+composite_name="$(echo "$selected" | tr . _)"
 
 if [[ -z $TMUX ]]; then
     tmux new-session -s $composite_name -c $selected_path

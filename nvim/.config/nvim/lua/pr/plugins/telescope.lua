@@ -87,27 +87,27 @@ return {
          end,
          desc = "Git Status",
        },
-       {
-         "gr",
-         function()
-           require("telescope.builtin").lsp_references({ show_line = false })
-         end,
-         desc = "LSP References",
-       },
-       {
-         "gd",
-         function()
-           require("telescope.builtin").lsp_definitions({ show_line = false })
-         end,
-         desc = "LSP References",
-       },
-       {
-         "gi",
-         function()
-           require("telescope.builtin").lsp_implementations({ show_line = false })
-         end,
-         desc = "LSP References",
-       },
+       -- {
+       --   "gr",
+       --   function()
+       --     require("telescope.builtin").lsp_references({ show_line = false })
+       --   end,
+       --   desc = "LSP References",
+       -- },
+       -- {
+       --   "gd",
+       --   function()
+       --     require("telescope.builtin").lsp_definitions({ show_line = false })
+       --   end,
+       --   desc = "LSP References",
+       -- },
+       -- {
+       --   "gi",
+       --   function()
+       --     require("telescope.builtin").lsp_implementations({ show_line = false })
+       --   end,
+       --   desc = "LSP References",
+       -- },
      },
    },
  }
