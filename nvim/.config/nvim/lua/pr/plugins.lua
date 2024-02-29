@@ -13,10 +13,8 @@ require("lazy").setup({
 
   { "fatih/vim-go", ft = "go" },
   "tpope/vim-vinegar",
+  "tpope/vim-surround",
 }, {
-  checker = {
-    enabled = true,
-  },
   dev = {
     path = "~/Workspace/github.com/prichrd/",
   },
