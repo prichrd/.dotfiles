@@ -58,3 +58,6 @@ colors:
 key_bindings:
   - { key: V, mods: Control,       action: Paste       }
   - { key: V, mods: Control|Shift, action: ReceiveChar }
+
+window:
+  opacity: 1.0
