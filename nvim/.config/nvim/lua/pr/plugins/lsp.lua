@@ -1,4 +1,4 @@
-local fts = { "go", "lua" }
+local fts = { "go", "rust", "lua" }
 
 return {
   {
@@ -34,6 +34,11 @@ return {
       end
 
       lspconfig["gopls"].setup({
+        flags = lsp_flags,
+        on_attach = on_attach,
+      })
+
+      lspconfig["rust-analyzer"].setup({
         flags = lsp_flags,
         on_attach = on_attach,
       })

@@ -11,9 +11,10 @@ require("lazy").setup({
   require("pr.plugins.prichrd"),
   require("pr.plugins.telescope"),
 
-  { "fatih/vim-go", ft = "go" },
+  { "fatih/vim-go", ft = {"go", "gomod"}},
   "tpope/vim-vinegar",
   "tpope/vim-surround",
+  "tpope/vim-commentary",
 }, {
   dev = {
     path = "~/Workspace/github.com/prichrd/",
