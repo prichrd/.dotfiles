@@ -16,10 +16,6 @@ return {
     opts = {},
   },
   {
-    "echasnovski/mini.comment",
-    opts = {},
-  },
-  {
     "echasnovski/mini.bracketed",
     opts = {},
   },
@@ -37,24 +33,6 @@ return {
         end,
       },
       symbol = "│",
-    },
-  },
-  {
-    "echasnovski/mini.clue",
-    opts = {
-      triggers = {
-        { mode = 'n', keys = '<Leader>' },
-        { mode = 'x', keys = '<Leader>' },
-        { mode = 'n', keys = '[' },
-        { mode = 'x', keys = '[' },
-        { mode = 'n', keys = ']' },
-        { mode = 'x', keys = ']' },
-        { mode = 'n', keys = 'g' },
-        { mode = 'x', keys = 'g' },
-      },
-      window = {
-        delay = 100,
-      }
     },
   },
 }
