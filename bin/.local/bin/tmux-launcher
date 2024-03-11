@@ -5,7 +5,7 @@ set -e
 workspace="${HOME}/Workspace/"
 
 if [ -z "$1" ]; then
-  selected=$(fd --follow --no-ignore -H -g --regex "^(.git)$" "$workspace" -x 'echo' '{//}' | sed -u "s#^$workspace##g" | fzf)
+  selected=$(fd -d 10 --type directory --type file --prune --no-ignore -H -g --regex "^(.git)$" --search-path "$workspace" -x 'echo' '{//}' | sed -u "s#^$workspace##g" | fzf)
   if [ -z "$selected" ]; then
     exit 0
   fi
