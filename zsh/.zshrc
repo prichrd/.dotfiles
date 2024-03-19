@@ -6,7 +6,12 @@ setopt noautocd               # Prevent autocd-ing when input is directory name
 setopt hist_ignore_dups       # Ignore commands made one after the other
 setopt hist_expire_dups_first # Remove duplicate events from history first
 setopt inc_append_history     # Append to history as commands are added, not when shell is exited
-unsetopt share_history        # Don't share history between sessions
+setopt extended_history       # Write the history file in the ":start:elapsed;command" format.
+setopt hist_ignore_all_dups   # Delete old recorded entry if new entry is a duplicate.
+setopt hist_find_no_dups      # Do not display a line previously found.
+setopt hist_ignore_space      # Don't record an entry starting with a space.
+setopt hist_save_no_dups      # Don't write duplicate entries in the history file.
+setopt hist_reduce_blanks     # Remove superfluous blanks before recording entry.
 
 alias v="nvim"
 alias vi="nvim"
@@ -19,7 +24,6 @@ alias kg="kubectl get"
 alias kgp="kubectl get pods"
 alias kgn="kubectl get namespaces"
 alias kl="kubectl logs"
-alias kubens="kubectl get namespaces"
 alias kens="kubens"
 alias kctx="kubectx"
 
@@ -53,6 +57,7 @@ compinit
 source $HOME/.zsh/prompt.zsh
 source /opt/homebrew/Cellar/fzf/0.44.1/shell/key-bindings.zsh
 source /opt/homebrew/Cellar/fzf/0.44.1/shell/completion.zsh
+eval "$(op completion zsh)"; compdef _op op
 source <(kubectl completion zsh)
 
 autoload -U up-line-or-beginning-search
