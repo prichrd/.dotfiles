@@ -2,10 +2,10 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
-      "prichrd/manatee.nvim"
+      "prichrd/vwd.nvim",
     },
     init = function()
-      require("telescope").load_extension('manatee')
+      require("telescope").load_extension('vwd')
     end,
     opts = {
       defaults = {
@@ -55,14 +55,14 @@ return {
       {
         "<Leader>ff",
         function()
-          require("telescope").extensions.manatee.find_files({})
+          require("telescope").extensions.vwd.find_files({})
         end,
         desc = "Files",
       },
       {
         "<Leader>fg",
         function()
-          require("telescope").extensions.manatee.live_grep({})
+          require("telescope").extensions.vwd.live_grep({})
         end,
         desc = "Grep",
       },
