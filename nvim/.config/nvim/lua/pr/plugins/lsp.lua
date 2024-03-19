@@ -38,7 +38,7 @@ return {
         on_attach = on_attach,
       })
 
-      lspconfig["rust-analyzer"].setup({
+      lspconfig["rust_analyzer"].setup({
         flags = lsp_flags,
         on_attach = on_attach,
       })

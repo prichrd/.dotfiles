@@ -7,13 +7,13 @@ return {
     opts = {
       mappings = {
         ["p"] = function(payload)
-          require 'manatee'.set_vwd(payload.dir, true)
+          require 'vwd'.set_vwd(payload.dir, true)
         end,
       },
     },
   },
   {
-    "prichrd/refgo.nvim",
-    cmd = { "RefCopy", "RefGo" },
+    "prichrd/vwd.nvim",
+    opts = {},
   },
 }
