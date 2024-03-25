@@ -55,10 +55,10 @@ autoload -Uz compinit
 compinit
 
 source $HOME/.zsh/prompt.zsh
-source /opt/homebrew/Cellar/fzf/0.44.1/shell/key-bindings.zsh
-source /opt/homebrew/Cellar/fzf/0.44.1/shell/completion.zsh
-eval "$(op completion zsh)"; compdef _op op
-source <(kubectl completion zsh)
+(( $+commands[fzf] )) && source /opt/homebrew/Cellar/fzf/0.44.1/shell/key-bindings.zsh
+(( $+commands[fzf] )) && source /opt/homebrew/Cellar/fzf/0.44.1/shell/completion.zsh
+(( $+commands[op] )) && source <(op completion zsh)
+(( $+commands[kubectl] )) && source <(kubectl completion zsh)
 
 autoload -U up-line-or-beginning-search
 zle -N up-line-or-beginning-search
