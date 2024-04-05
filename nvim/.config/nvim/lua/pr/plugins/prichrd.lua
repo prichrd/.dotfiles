@@ -7,13 +7,19 @@ return {
     opts = {
       mappings = {
         ["p"] = function(payload)
-          require 'vwd'.set_vwd(payload.dir, true)
+          require("vwd").set_vwd(payload.dir, true)
+          print("current vwd:", require("vwd").get_vwd())
         end,
       },
     },
   },
   {
     "prichrd/vwd.nvim",
-    opts = {},
+    opts={},
   },
+  -- {
+  --   "prichrd/qf.nvim",
+  --   dev=true,
+  --   opts={},
+  -- },
 }

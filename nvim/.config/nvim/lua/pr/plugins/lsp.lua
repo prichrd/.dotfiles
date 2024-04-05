@@ -1,4 +1,4 @@
-local fts = { "go", "rust", "lua" }
+local fts = { "go", "rust", "lua", "conf" }
 
 return {
   {
@@ -40,6 +40,12 @@ return {
 
       lspconfig["rust_analyzer"].setup({
         flags = lsp_flags,
+        on_attach = on_attach,
+      })
+
+      lspconfig["tilt_ls"].setup({
+        flags = lsp_flags,
+        filetypes = {"conf"},
         on_attach = on_attach,
       })
 

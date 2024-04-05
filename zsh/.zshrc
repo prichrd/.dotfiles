@@ -59,6 +59,9 @@ source $HOME/.zsh/prompt.zsh
 (( $+commands[fzf] )) && source /opt/homebrew/Cellar/fzf/0.44.1/shell/completion.zsh
 (( $+commands[op] )) && source <(op completion zsh)
 (( $+commands[kubectl] )) && source <(kubectl completion zsh)
+source <(docker completion zsh)
+source <(tilt completion zsh)
+eval "$(kind completion zsh)"; compdef _kind kind
 
 autoload -U up-line-or-beginning-search
 zle -N up-line-or-beginning-search
