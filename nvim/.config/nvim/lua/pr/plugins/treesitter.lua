@@ -7,10 +7,10 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    ft = { "go", "gomod", "lua" },
+    ft = { "go", "gomod", "lua", "starlark", "rust" },
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "go", "gomod", "lua" },
+        ensure_installed = { "go", "gomod", "lua", "starlark", "rust" },
         highlight = {
           enable = true,
         },

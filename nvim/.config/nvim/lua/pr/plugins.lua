@@ -10,11 +10,16 @@ require("lazy").setup({
   require("pr.plugins.prichrd"),
   require("pr.plugins.telescope"),
 
-  { "fatih/vim-go", ft = {"go", "gomod"}},
+  { "fatih/vim-go", ft = { "go", "gomod" } },
   "tpope/vim-vinegar",
   "tpope/vim-surround",
-  "tpope/vim-commentary",
   "tpope/vim-fugitive",
+  { "kevinhwang91/nvim-bqf", ft = 'qf', opts = {
+      preview = {
+        winblend = 0
+      }
+  }
+},
 }, {
   dev = {
     path = "~/Workspace/github.com/prichrd/",
