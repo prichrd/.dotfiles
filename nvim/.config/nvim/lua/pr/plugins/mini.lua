@@ -24,6 +24,10 @@ return {
     opts = {},
   },
   {
+    "echasnovski/mini.diff",
+    opts = {},
+  },
+  {
     "echasnovski/mini.indentscope",
     opts = {
       draw = {

@@ -7,7 +7,6 @@ require("lazy").setup({
   require("pr.plugins.treesitter"),
   require("pr.plugins.lsp"),
   require("pr.plugins.luasnip"),
-  require("pr.plugins.git"),
   require("pr.plugins.prichrd"),
   require("pr.plugins.telescope"),
 
@@ -15,6 +14,7 @@ require("lazy").setup({
   "tpope/vim-vinegar",
   "tpope/vim-surround",
   "tpope/vim-commentary",
+  "tpope/vim-fugitive",
 }, {
   dev = {
     path = "~/Workspace/github.com/prichrd/",
