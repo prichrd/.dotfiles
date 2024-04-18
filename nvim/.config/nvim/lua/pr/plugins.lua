@@ -4,7 +4,6 @@ require("lazy").setup({
   "tpope/vim-vinegar",
   "tpope/vim-surround",
   "tpope/vim-commentary",
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 
   require("pr.plugins.colorscheme"),
   require("pr.plugins.git"),
