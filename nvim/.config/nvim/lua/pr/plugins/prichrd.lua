@@ -17,9 +17,7 @@ return {
     "prichrd/vwd.nvim",
     opts={},
   },
-  -- {
-  --   "prichrd/qf.nvim",
-  --   dev=true,
-  --   opts={},
-  -- },
+  {
+    "prichrd/refgo.nvim",
+  },
 }
