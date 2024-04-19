@@ -4,18 +4,28 @@ set -e
 
 workspace="${HOME}/Workspace/"
 
-if [ -z "$1" ]; then
+selected="$1"
+if [ -z "$selected" ]; then
   selected=$(fd -d 10 --type directory --type file --prune --no-ignore -H -g --regex "^(.git)$" --search-path "$workspace" -x 'echo' '{//}' | sed -u "s#^$workspace##g" | fzf)
   if [ -z "$selected" ]; then
     exit 0
   fi
-else
-  selected="$1"
 fi
 
-dirname=$(basename $(dirname "$selected"))
 selected_path="$workspace$selected"
-composite_name="$(echo "$selected" | tr . _)"
+pushd "$selected_path"
+  git_dir="$(git rev-parse --git-dir)"
+  if [ "$git_dir" = ".git" ]; then
+    composite_name="$(basename $selected)"
+  else
+    worktree="$(basename $selected)"
+    repo="$(basename $(dirname $(dirname $git_dir)))"
+    repo="$(echo $repo | sed 's/\.git//g')"
+    composite_name="$repo/$worktree"
+  fi
+popd
+
+composite_name="$(echo "$composite_name" | tr . _)"
 
 if [[ -z $TMUX ]]; then
     tmux new-session -s $composite_name -c $selected_path

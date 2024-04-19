@@ -1,17 +1,12 @@
 #!/bin/zsh
 
-setopt prompt_subst           # Allow commands in prompt
-setopt globdots               # Shows hidden files in autocomplete
-setopt noautocd               # Prevent autocd-ing when input is directory name
-setopt hist_ignore_dups       # Ignore commands made one after the other
-setopt hist_expire_dups_first # Remove duplicate events from history first
-setopt inc_append_history     # Append to history as commands are added, not when shell is exited
-setopt extended_history       # Write the history file in the ":start:elapsed;command" format.
-setopt hist_ignore_all_dups   # Delete old recorded entry if new entry is a duplicate.
-setopt hist_find_no_dups      # Do not display a line previously found.
-setopt hist_ignore_space      # Don't record an entry starting with a space.
-setopt hist_save_no_dups      # Don't write duplicate entries in the history file.
-setopt hist_reduce_blanks     # Remove superfluous blanks before recording entry.
+if [ -d $HOME/.oh-my-zsh ]; then
+  export ZSH="$HOME/.oh-my-zsh"
+  plugins=(git docker docker-compose fzf kubectl vi-mode)
+  ZSH_THEME="robbyrussell"
+  VI_MODE_SET_CURSOR=true
+  source $ZSH/oh-my-zsh.sh
+fi
 
 alias v="nvim"
 alias vi="nvim"
@@ -33,14 +28,12 @@ alias gc="git commit"
 alias gf="git fetch"
 alias gr="git rebase"
 alias gw="git worktree"
-alias ls="ls -h --color --group-directories-first"
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
+alias ls="gls -h --color=always --group-directories-first"
 
 # export DOCKER_DEFAULT_PLATFORM=linux/amd64
 export DOCKER_DEFAULT_PLATFORM=linux/arm64
 export EDITOR="nvim"
-export VISUAL="nvim" # Will bind vim keys
+export VISUAL="nvim"
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
@@ -50,29 +43,6 @@ export PATH="$HOME/.cargo/env:$PATH"
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
-
-autoload -Uz compinit
-compinit
-
-source $HOME/.zsh/prompt.zsh
-(( $+commands[fzf] )) && source /opt/homebrew/Cellar/fzf/0.44.1/shell/key-bindings.zsh
-(( $+commands[fzf] )) && source /opt/homebrew/Cellar/fzf/0.44.1/shell/completion.zsh
-(( $+commands[op] )) && source <(op completion zsh)
-(( $+commands[kubectl] )) && source <(kubectl completion zsh)
-(( $+commands[docker] )) && source <(docker completion zsh)
-(( $+commands[tilt] )) && source <(tilt completion zsh)
-(( $+commands[kind] )) && eval "$(kind completion zsh)"; compdef _kind kind
-
-autoload -U up-line-or-beginning-search
-zle -N up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N down-line-or-beginning-search
-autoload -Uz edit-command-line
-zle -N edit-command-line
-
-bindkey -M vicmd 'vv' edit-command-line
-bindkey "^[[A" up-line-or-beginning-search # Up
-bindkey "^[[B" down-line-or-beginning-search # Down
 
 if [ -f $HOME/.work/.zshrc ]; then
   source $HOME/.work/.zshrc
