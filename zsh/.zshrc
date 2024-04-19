@@ -28,6 +28,7 @@ alias gc="git commit"
 alias gf="git fetch"
 alias gr="git rebase"
 alias gw="git worktree"
+
 alias ls="gls -h --color=always --group-directories-first"
 
 # export DOCKER_DEFAULT_PLATFORM=linux/amd64
