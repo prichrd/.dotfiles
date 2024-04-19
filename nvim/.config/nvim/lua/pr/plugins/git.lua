@@ -3,6 +3,8 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     opts = {
+      signcolumn = false,
+      numhl = true,
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
 

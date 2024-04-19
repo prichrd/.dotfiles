@@ -4,7 +4,11 @@ require("lazy").setup({
   "tpope/vim-vinegar",
   "tpope/vim-surround",
   "tpope/vim-commentary",
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {},
+  },
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
