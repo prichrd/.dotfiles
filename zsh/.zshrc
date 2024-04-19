@@ -35,6 +35,7 @@ export DOCKER_DEFAULT_PLATFORM=linux/arm64
 export EDITOR="nvim"
 export VISUAL="nvim"
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
