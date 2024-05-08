@@ -49,6 +49,7 @@ require("lazy").setup({
     },
   },
 
+  require("pr.plugins.ai"),
   require("pr.plugins.colorscheme"),
   require("pr.plugins.git"),
   require("pr.plugins.go"),
