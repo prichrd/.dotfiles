@@ -2,11 +2,13 @@
 
 if [ -d $HOME/.oh-my-zsh ]; then
   export ZSH="$HOME/.oh-my-zsh"
-  plugins=(git docker docker-compose fzf kubectl vi-mode)
+  plugins=(git docker docker-compose fzf kubectl vi-mode tmux)
   ZSH_THEME="robbyrussell"
   VI_MODE_SET_CURSOR=true
   source $ZSH/oh-my-zsh.sh
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 alias v="nvim"
 alias vi="nvim"
@@ -49,3 +51,4 @@ export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 if [ -f $HOME/.work/.zshrc ]; then
   source $HOME/.work/.zshrc
 fi
+
