@@ -1,9 +1,34 @@
 require("lazy").setup({
   "nvim-lua/plenary.nvim",
   "nvim-tree/nvim-web-devicons",
-  "tpope/vim-vinegar",
   "tpope/vim-surround",
   "tpope/vim-commentary",
+  {
+    "stevearc/oil.nvim",
+    opts = {
+      view_options = {
+        show_hidden = false,
+        is_hidden_file = function(name, bufnr)
+          return name == ".."
+        end,
+      },
+      keymaps = {
+        ["<TAB>"] = function()
+          local oil = require('oil')
+          require('vwd').set_vwd(oil.get_current_dir(), true)
+          print("[oil] current vwd:", require('vwd').get_vwd())
+        end,
+      },
+    },
+    keys = {
+      {
+        "-",
+        function()
+          require("oil").open()
+        end,
+      }
+    },
+  },
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
