@@ -1,5 +1,3 @@
-local fts = { "go", "rust", "lua", "conf" }
-
 return {
   {
     "folke/neodev.nvim",
@@ -7,52 +5,51 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    ft = fts,
+    ft = { "go", "gomod", "rust", "lua" },
     dependencies = {
       "folke/neodev.nvim",
     },
     config = function()
       local lspconfig = require("lspconfig")
 
-      local lsp_flags = {
-        debounce_text_changes = 150,
-      }
-
-      local on_attach = function(client, bufnr)
-        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-
-        local opts = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "<C-f>", function()
-          vim.lsp.buf.format({ async = true })
-        end, opts)
-        vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, opts)
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-      end
+      vim.opt_global.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
       lspconfig["gopls"].setup({
-        flags = lsp_flags,
-        on_attach = on_attach,
+        settings = {
+          gopls = {
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+          },
+        },
+        on_attach = function()
+          vim.lsp.inlay_hint.enable()
+        end
       })
-
       lspconfig["rust_analyzer"].setup({
-        flags = lsp_flags,
-        on_attach = on_attach,
+        on_attach = function()
+          vim.lsp.inlay_hint.enable()
+        end
       })
 
-      lspconfig["tilt_ls"].setup({
-        flags = lsp_flags,
-        filetypes = {"conf"},
-        on_attach = on_attach,
-      })
-
-      require("neodev").setup()
+      require("neodev").setup();
       lspconfig["lua_ls"].setup({
-        flags = lsp_flags,
-        on_attach = on_attach,
+        settings = {
+          Lua = {
+            hint = {
+              enable = true,
+            },
+          },
+        },
+        on_attach = function()
+          vim.lsp.inlay_hint.enable()
+        end
       })
     end,
   },

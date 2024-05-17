@@ -1,3 +1,4 @@
+vim.g.copilot_filetypes = { ['oil'] = false, }
 vim.g.copilot_assume_mapped = true
 vim.keymap.del("i", "<Tab>")
 vim.g.copilot_no_tab_map = true
