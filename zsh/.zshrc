@@ -1,5 +1,20 @@
 #!/bin/zsh
 
+# export DOCKER_DEFAULT_PLATFORM=linux/amd64
+export DOCKER_DEFAULT_PLATFORM=linux/arm64
+export EDITOR="nvim"
+export VISUAL="nvim"
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.rd/bin:$PATH"
+export PATH="$HOME/.cargo/env:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/go/bin:$PATH"
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+
 if [ -d $HOME/.oh-my-zsh ]; then
   export ZSH="$HOME/.oh-my-zsh"
   plugins=(git docker docker-compose fzf kubectl vi-mode tmux)
@@ -33,20 +48,6 @@ alias gw="git worktree"
 
 alias ls="gls -h --color=always --group-directories-first"
 
-# export DOCKER_DEFAULT_PLATFORM=linux/amd64
-export DOCKER_DEFAULT_PLATFORM=linux/arm64
-export EDITOR="nvim"
-export VISUAL="nvim"
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/go/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
-export PATH="$HOME/.rd/bin:$PATH"
-export PATH="$HOME/.cargo/env:$PATH"
-export PATH="/usr/local/bin:$PATH"
-export PATH="/usr/local/go/bin:$PATH"
-export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
 if [ -f $HOME/.work/.zshrc ]; then
   source $HOME/.work/.zshrc
