@@ -28,15 +28,8 @@ return {
             },
           },
         },
-        on_attach = function()
-          vim.lsp.inlay_hint.enable()
-        end
       })
-      lspconfig["rust_analyzer"].setup({
-        on_attach = function()
-          vim.lsp.inlay_hint.enable()
-        end
-      })
+      lspconfig["rust_analyzer"].setup({})
 
       require("neodev").setup();
       lspconfig["lua_ls"].setup({
@@ -47,9 +40,6 @@ return {
             },
           },
         },
-        on_attach = function()
-          vim.lsp.inlay_hint.enable()
-        end
       })
     end,
   },
