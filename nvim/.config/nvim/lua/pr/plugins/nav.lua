@@ -16,6 +16,7 @@ return {
         end,
       },
     },
+    lazy = false,
     keys = {
       {
         "-",
@@ -29,6 +30,8 @@ return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
+    lazy = false,
     keys = {
       {
         "<Leader>ha",
@@ -44,7 +47,7 @@ return {
           local harpoon = require("harpoon")
           harpoon.ui:toggle_quick_menu(harpoon:list())
         end,
-        desc = "Add a harpoon",
+        desc = "List harpoons",
       },
       {
         "]h",
@@ -60,7 +63,7 @@ return {
           local harpoon = require("harpoon")
           harpoon:list():prev()
         end,
-        desc = "Next harpoon",
+        desc = "Previous harpoon",
       },
     },
   },

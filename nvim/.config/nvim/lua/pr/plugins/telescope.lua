@@ -30,6 +30,7 @@ return {
         },
       },
     },
+    lazy = false,
     keys = {
       {
         "<Leader>fr",
