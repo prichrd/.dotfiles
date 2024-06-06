@@ -16,6 +16,8 @@ vim.keymap.set('n', ']l', ":lnext<cr>")
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('LspConfig', {}),
   callback = function(ev)
+    vim.opt_global.omnifunc = 'v:lua.vim.lsp.omnifunc'
+
     local opts = { buffer = ev.buffer }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -26,5 +28,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set({ 'n', 'v' }, '<Leader>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set("n", "<C-f>", function() vim.lsp.buf.format({ async = true }) end, opts)
+
+    vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = ev.buf,
+        callback = function()
+          vim.lsp.buf.format {async = false, id = ev.data.client_id }
+        end,
+      })
   end
 })

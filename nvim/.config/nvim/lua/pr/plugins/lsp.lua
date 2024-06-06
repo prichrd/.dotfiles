@@ -12,8 +12,6 @@ return {
     config = function()
       local lspconfig = require("lspconfig")
 
-      vim.opt_global.omnifunc = 'v:lua.vim.lsp.omnifunc'
-
       lspconfig["gopls"].setup({
         settings = {
           gopls = {
@@ -25,6 +23,9 @@ return {
               functionTypeParameters = true,
               parameterNames = true,
               rangeVariableTypes = true,
+            },
+            formatting = {
+              gofumpt = true,
             },
           },
         },
