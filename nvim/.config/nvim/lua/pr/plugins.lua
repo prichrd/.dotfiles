@@ -3,7 +3,6 @@ require("lazy").setup({
   "nvim-tree/nvim-web-devicons",
   "tpope/vim-surround",
   "tpope/vim-commentary",
-  "fatih/vim-go",
 
   require("pr.plugins.ai"),
   require("pr.plugins.colorscheme"),
