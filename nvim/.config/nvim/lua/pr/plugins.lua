@@ -7,7 +7,6 @@ require("lazy").setup({
   require("pr.plugins.ai"),
   require("pr.plugins.colorscheme"),
   require("pr.plugins.git"),
-  require("pr.plugins.http"),
   require("pr.plugins.lsp"),
   require("pr.plugins.luasnip"),
   require("pr.plugins.mini"),
