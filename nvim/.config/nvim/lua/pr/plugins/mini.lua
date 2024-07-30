@@ -1,27 +1,27 @@
 return {
-  {
-    "echasnovski/mini.completion",
-    opts = {},
-  },
-  {
-    "echasnovski/mini.cursorword",
-    opts = {},
-  },
-  {
-    "echasnovski/mini.trailspace",
-    opts = {},
-  },
-  {
-    "echasnovski/mini.icons",
-    opts = {},
-    specs = {
-      { "nvim-tree/nvim-web-devicons", enabled = false, optional = true },
-    },
-    init = function()
-      package.preload["nvim-web-devicons"] = function()
-        require("mini.icons").mock_nvim_web_devicons()
-        return package.loaded["nvim-web-devicons"]
-      end
-    end,
-  },
+	{
+		"echasnovski/mini.completion",
+		opts = {},
+	},
+	{
+		"echasnovski/mini.cursorword",
+		opts = {},
+	},
+	{
+		"echasnovski/mini.trailspace",
+		opts = {},
+	},
+	{
+		"echasnovski/mini.icons",
+		opts = {},
+		specs = {
+			{ "nvim-tree/nvim-web-devicons", enabled = false, optional = true },
+		},
+		init = function()
+			package.preload["nvim-web-devicons"] = function()
+				require("mini.icons").mock_nvim_web_devicons()
+				return package.loaded["nvim-web-devicons"]
+			end
+		end,
+	},
 }
