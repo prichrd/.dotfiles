@@ -48,6 +48,7 @@ alias gw="git worktree"
 
 alias ls="gls -h --color=always --group-directories-first"
 
+setopt globdots
 
 if [ -f $HOME/.work/.zshrc ]; then
   source $HOME/.work/.zshrc
