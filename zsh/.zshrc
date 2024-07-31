@@ -1,7 +1,5 @@
 #!/bin/zsh
 
-# export DOCKER_DEFAULT_PLATFORM=linux/amd64
-export DOCKER_DEFAULT_PLATFORM=linux/arm64
 export EDITOR="nvim"
 export VISUAL="nvim"
 
