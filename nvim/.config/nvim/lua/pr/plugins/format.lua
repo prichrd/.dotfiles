@@ -6,6 +6,7 @@ return {
 			require("formatter").setup({
 				filetype = {
 					go = {
+						require("formatter.filetypes.go").goimports,
 						require("formatter.filetypes.go").gofmt,
 					},
 					lua = {
