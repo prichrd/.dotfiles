@@ -12,7 +12,7 @@ return {
 		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "go", "gomod", "lua", "bash", "starlark", "rust" },
+				ensure_installed = { "go", "gomod", "lua", "bash", "json" },
 				highlight = {
 					enable = true,
 				},
@@ -20,7 +20,7 @@ return {
 				auto_install = true,
 				ignore_install = {},
 				disable = function(_, buf)
-					local max_filesize = 100 * 1024 -- 100 KB
+					local max_filesize = 250 * 1024 -- 250 KB
 					local exists, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
 					if exists and stats and stats.size > max_filesize then
 						return true

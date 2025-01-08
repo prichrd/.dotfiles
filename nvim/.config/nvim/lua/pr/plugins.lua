@@ -4,8 +4,7 @@ require("lazy").setup({
 	"tpope/vim-surround",
 	"tpope/vim-commentary",
 	{
-		"MeanderingProgrammer/markdown.nvim",
-		main = "render-markdown",
+		"MeanderingProgrammer/render-markdown.nvim",
 		opts = {},
 	},
 
