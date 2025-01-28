@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+function _x { >&2 echo "\e[90m>> $@\033[0m"; "$@"; }
+
 export EDITOR="nvim"
 export VISUAL="nvim"
 
