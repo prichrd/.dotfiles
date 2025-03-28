@@ -1,0 +1,8 @@
+vim.snippet.add("fn", "func $1($2){\n\t$0\n}", { buffer = 0 })
+vim.snippet.add("st", "type ${1:Name} struct {\n\t$0\n}", { buffer = 0 })
+vim.snippet.add("int", "type ${1:Name} interface {\n\t$0\n}", { buffer = 0 })
+vim.snippet.add("switch", "switch ${1:expression} {\ncase ${2:condition}:\n\t$0\n", { buffer = 0 })
+vim.snippet.add("select", "select {\ncase ${1:condition}:\n\t$0\n}", { buffer = 0 })
+vim.snippet.add("test", "func Test${1:Name}(t *testing.T) {\n\t$0\n}", { buffer = 0 })
+vim.snippet.add("todo", "// TODO: $0", { buffer = 0 })
+vim.snippet.add("main", "package main\n\nfunc main() {\n\t$0\n}", { buffer = 0 })
