@@ -24,13 +24,8 @@ require("lazy").setup({
 			vim.cmd.colorscheme("tokyonight")
 		end,
 	},
-
 	{
 		"echasnovski/mini.completion",
-		opts = {},
-	},
-	{
-		"echasnovski/mini.clue",
 		opts = {},
 	},
 	{
@@ -39,6 +34,10 @@ require("lazy").setup({
 	},
 	{
 		"echasnovski/mini.trailspace",
+		opts = {},
+	},
+	{
+		"echasnovski/mini.tabline",
 		opts = {},
 	},
 	{
@@ -64,18 +63,13 @@ require("lazy").setup({
 				end,
 			},
 			keymaps = {
-				["<TAB>"] = function()
-					local oil = require("oil")
-					require("vwd").set_vwd(oil.get_current_dir(), true)
-					print("[oil] current vwd:", require("vwd").get_vwd())
-				end,
 				["ff"] = function()
 					local oil = require("oil")
-					require("telescope.builtin").find_files({ cwd = oil.get_current_dir() })
+					require("fzf-lua").files({ cwd = oil.get_current_dir() })
 				end,
 				["fg"] = function()
 					local oil = require("oil")
-					require("telescope.builtin").live_grep({ cwd = oil.get_current_dir() })
+					require("fzf-lua").live_grep({ cwd = oil.get_current_dir() })
 				end,
 			},
 		},
@@ -89,10 +83,79 @@ require("lazy").setup({
 		},
 	},
 	{
-		"nvim-treesitter/nvim-treesitter-context",
-		event = "BufReadPre",
-		enabled = true,
-		opts = { mode = "cursor" },
+		"ibhagwan/fzf-lua",
+		lazy = false,
+		opts = {
+			winopts = {
+				split = "belowright new",
+				preview = {
+					border = "none",
+				},
+			},
+			grep = {
+				rg_opts = "--column --hidden --line-number --no-heading --color=always --smart-case --max-columns=4096 --glob=!.git/ -e",
+			},
+		},
+		keys = {
+			{
+				"<Leader>zz",
+				"<cmd>FzfLua<CR>",
+			},
+			{
+				"<Leader>ff",
+				function()
+					require("fzf-lua").files({})
+				end,
+			},
+			{
+				"<Leader>fg",
+				function()
+					require("fzf-lua").live_grep({})
+				end,
+			},
+			{
+				"<Leader>fs",
+				function()
+					require("fzf-lua").git_status({})
+				end,
+			},
+			{
+				"<Leader>fb",
+				function()
+					require("fzf-lua").buffers({})
+				end,
+			},
+			{
+				"<Leader>fw",
+				function()
+					require("fzf-lua").grep_cword({})
+				end,
+			},
+			{
+				"gr",
+				function()
+					require("fzf-lua").lsp_references({})
+				end,
+			},
+			{
+				"gd",
+				function()
+					require("fzf-lua").lsp_definitions({})
+				end,
+			},
+			{
+				"gD",
+				function()
+					require("fzf-lua").lsp_declarations({})
+				end,
+			},
+			{
+				"gi",
+				function()
+					require("fzf-lua").lsp_implementations({})
+				end,
+			},
+		},
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -117,132 +180,7 @@ require("lazy").setup({
 				end,
 				additional_vim_regex_highlighting = false,
 			})
-			vim.opt.foldmethod = "expr"
-			vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 		end,
-	},
-	{
-		"prichrd/netrw.nvim",
-		ft = "netrw",
-		opts = {},
-	},
-	{
-		"prichrd/refgo.nvim",
-	},
-	{
-		"prichrd/vwd.nvim",
-		opts = {},
-	},
-	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = {
-			"prichrd/vwd.nvim",
-		},
-		init = function()
-			require("telescope").load_extension("vwd")
-		end,
-		opts = {
-			defaults = {
-				file_ignore_patterns = { ".git/", "vendor/" },
-				mappings = {
-					i = {
-						["<C-j>"] = function(bufnr)
-							return require("telescope.actions").move_selection_next(bufnr)
-						end,
-						["<C-k>"] = function(bufnr)
-							return require("telescope.actions").move_selection_previous(bufnr)
-						end,
-					},
-				},
-			},
-			pickers = {
-				find_files = {
-					hidden = true,
-				},
-				live_grep = {
-					hidden = true,
-				},
-			},
-		},
-		keys = {
-			{
-				"<Leader>fr",
-				function()
-					require("telescope.builtin").resume()
-				end,
-				desc = "Resume previous picker",
-			},
-			{
-				"<Leader>fb",
-				function()
-					require("telescope.builtin").buffers()
-				end,
-				desc = "Buffers",
-			},
-			{
-				"<Leader>fh",
-				function()
-					require("telescope.builtin").help_tags()
-				end,
-				desc = "Help tags",
-			},
-			{
-				"<Leader>ff",
-				function()
-					require("telescope").extensions.vwd.find_files({})
-				end,
-				desc = "Files",
-			},
-			{
-				"<Leader>fg",
-				function()
-					require("telescope").extensions.vwd.live_grep({})
-				end,
-				desc = "Grep",
-			},
-			{
-				"<Leader>fq",
-				function()
-					require("telescope.builtin").quickfix()
-				end,
-				desc = "Quickfixes",
-			},
-			{
-				"<Leader>fk",
-				function()
-					require("telescope.builtin").keymaps()
-				end,
-				desc = "Keymaps",
-			},
-			{
-				"<Leader>fs",
-				function()
-					require("telescope.builtin").git_status()
-				end,
-				desc = "Git Status",
-			},
-			{
-				"gd",
-				function()
-					require("telescope.builtin").lsp_definitions()
-				end,
-				desc = "LSP Definitions",
-			},
-			{
-				"gr",
-				function()
-					require("telescope.builtin").lsp_references()
-				end,
-				desc = "LSP References",
-			},
-			{
-				"gi",
-				function()
-					require("telescope.builtin").lsp_implementations()
-				end,
-				desc = "LSP Implementations",
-			},
-		},
 	},
 	{
 		"lewis6991/gitsigns.nvim",
@@ -287,7 +225,6 @@ require("lazy").setup({
 					},
 				},
 			})
-
 			vim.api.nvim_create_augroup("__formatter__", { clear = true })
 			vim.api.nvim_create_autocmd("BufWritePost", {
 				group = "__formatter__",
