@@ -246,38 +246,53 @@ require("lazy").setup({
 	},
 	{
 		"lewis6991/gitsigns.nvim",
+		lazy = false,
 		opts = {
 			signcolumn = false,
 			numhl = true,
-			on_attach = function(bufnr)
-				local gs = package.loaded.gitsigns
-
-				local function map(mode, l, r, opts)
-					opts = opts or {}
-					opts.buffer = bufnr
-					vim.keymap.set(mode, l, r, opts)
-				end
-
-				map("n", "]g", function()
-					if vim.wo.diff then
-						return "]c"
-					end
-					vim.schedule(function()
-						gs.next_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true })
-
-				map("n", "[g", function()
-					if vim.wo.diff then
-						return "[c"
-					end
-					vim.schedule(function()
-						gs.prev_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true })
-			end,
 		},
+		keys = {
+			{
+				"<leader>gg",
+				"<cmd>Gitsign setqflist",
+			},
+		},
+	},
+	{
+		"folke/trouble.nvim",
+		opts = {},
+		cmd = "Trouble",
+		keys = {
+			{
+				"<leader>xx",
+				"<cmd>Trouble diagnostics toggle<cr>",
+				desc = "Diagnostics (Trouble)",
+			},
+		},
+	},
+	{
+		"mhartington/formatter.nvim",
+		config = function()
+			require("formatter").setup({
+				filetype = {
+					go = {
+						require("formatter.filetypes.go").goimports,
+						require("formatter.filetypes.go").gofmt,
+					},
+					lua = {
+						require("formatter.filetypes.lua").stylua,
+					},
+					typescript = {
+						require("formatter.filetypes.typescript").biome,
+					},
+				},
+			})
+
+			vim.api.nvim_create_augroup("__formatter__", { clear = true })
+			vim.api.nvim_create_autocmd("BufWritePost", {
+				group = "__formatter__",
+				command = ":FormatWrite",
+			})
+		end,
 	},
 })
