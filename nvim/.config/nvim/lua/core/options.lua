@@ -33,4 +33,4 @@ vim.opt.smartindent = true
 vim.g.mapleader = vim.keycode("<space>")
 vim.g.maplocalleader = vim.keycode("<cr>")
 
-vim.diagnostic.config({ virtual_lines = true })
+vim.diagnostic.config({ virtual_lines = false, virtual_text = false })
