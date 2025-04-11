@@ -87,7 +87,7 @@ require("lazy").setup({
 		lazy = false,
 		opts = {
 			winopts = {
-				split = "belowright new",
+				split = "botright new",
 				preview = {
 					border = "none",
 				},
