@@ -23,7 +23,7 @@ if [ -d $HOME/.oh-my-zsh ]; then
   source $ZSH/oh-my-zsh.sh
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source $(brew --prefix)/Cellar/fzf/$(fzf --version | cut -d ' ' -f 1)/shell/key-bindings.zsh
 
 alias v="nvim"
 alias vi="nvim"

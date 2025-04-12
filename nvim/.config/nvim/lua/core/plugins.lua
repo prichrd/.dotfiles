@@ -37,10 +37,6 @@ require("lazy").setup({
 		opts = {},
 	},
 	{
-		"echasnovski/mini.tabline",
-		opts = {},
-	},
-	{
 		"echasnovski/mini.icons",
 		opts = {},
 		specs = {
