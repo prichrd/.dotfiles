@@ -6,3 +6,4 @@ vim.snippet.add("select", "select {\ncase ${1:condition}:\n\t$0\n}", { buffer = 
 vim.snippet.add("test", "func Test${1:Name}(t *testing.T) {\n\t$0\n}", { buffer = 0 })
 vim.snippet.add("todo", "// TODO: $0", { buffer = 0 })
 vim.snippet.add("main", "package main\n\nfunc main() {\n\t$0\n}", { buffer = 0 })
+vim.snippet.add("forr", "for ${1:k, v} := range ${2:arr} {\n\t$0\n}", { buffer = 0 })
