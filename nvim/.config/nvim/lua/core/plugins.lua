@@ -14,6 +14,7 @@ require("lazy").setup({
 	"tpope/vim-surround",
 	"tpope/vim-commentary",
 	"tpope/vim-fugitive",
+	"tpope/vim-rhubarb",
 
 	{
 		"folke/tokyonight.nvim",
@@ -30,10 +31,6 @@ require("lazy").setup({
 	},
 	{
 		"echasnovski/mini.cursorword",
-		opts = {},
-	},
-	{
-		"echasnovski/mini.trailspace",
 		opts = {},
 	},
 	{
@@ -54,7 +51,7 @@ require("lazy").setup({
 		opts = {
 			view_options = {
 				show_hidden = false,
-				is_hidden_file = function(name, bufnr)
+				is_hidden_file = function(name)
 					return name == ".."
 				end,
 			},
@@ -194,13 +191,16 @@ require("lazy").setup({
 	},
 	{
 		"folke/trouble.nvim",
-		opts = {},
+		opts = {
+			warn_no_results = false,
+			open_no_results = true,
+		},
 		cmd = "Trouble",
 		keys = {
 			{
 				"<leader>xx",
-				"<cmd>Trouble diagnostics toggle<cr>",
-				desc = "Diagnostics (Trouble)",
+				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+				desc = "Buffer Diagnostics (Trouble)",
 			},
 		},
 	},
