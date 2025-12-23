@@ -1,0 +1,13 @@
+#!/bin/bash
+# Shows a Claude waiting indicator in the tmux status bar
+# Checks if any pane in the current session has CLAUDE_WAITING set
+
+waiting=0
+for var in $(tmux show-environment -g 2>/dev/null | grep '^CLAUDE_WAITING_' | cut -d= -f1); do
+  waiting=1
+  break
+done
+
+if [[ "$waiting" -eq 1 ]]; then
+  echo "#[fg=yellow,bold]⏳ Claude#[fg=default,nobold]"
+fi

@@ -15,6 +15,13 @@ require("lazy").setup({
 	"tpope/vim-commentary",
 	"tpope/vim-fugitive",
 	"tpope/vim-rhubarb",
+	{
+		"github/copilot.vim",
+		init = function()
+			vim.g.copilot_no_tab_map = true
+			vim.api.nvim_set_keymap("i", "<C-j>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+		end,
+	},
 
 	{
 		"folke/tokyonight.nvim",
@@ -87,6 +94,11 @@ require("lazy").setup({
 			},
 			grep = {
 				rg_opts = "--column --hidden --line-number --no-heading --color=always --smart-case --max-columns=4096 --glob=!.git/ -e",
+			},
+			keymap = {
+				fzf = {
+					["ctrl-q"] = "select-all+accept",
+				},
 			},
 		},
 		keys = {
