@@ -2,42 +2,72 @@
 
 set -e
 
-workspace="${HOME}/Workspace/"
+WORKSPACE="${HOME}/Workspace"
+WORKTREES="${HOME}/Worktrees"
 
-selected="$1"
-if [ -z "$selected" ]; then
-  selected=$(fd -d 10 --type directory --type file --prune --no-ignore -H -g --regex "^(.git)$" --search-path "$workspace" -x 'echo' '{//}' | sed -u "s#^$workspace##g" | fzf)
-  if [ -z "$selected" ]; then
+# --- Helpers ---
+
+switch_or_create_session() {
+  local session_name="$1"
+  local session_path="$2"
+
+  session_name="$(echo "$session_name" | tr . _)"
+
+  if [[ -z $TMUX ]]; then
+    tmux new-session -s $session_name -c $selected_path
     exit 0
   fi
-fi
 
-selected_path="$workspace$selected"
-pushd "$selected_path"
-  git_dir="$(git rev-parse --git-dir)"
-  if [ "$git_dir" = ".git" ]; then
-    composite_name="$(basename $selected)"
+  if ! tmux has-session -t="$session_name" 2> /dev/null; then
+    tmux new-session -ds $session_name -c $session_path
+  fi
+
+  if [[ -z $TMUX ]]; then
+    tmux attach-session -t $session_name
   else
-    worktree="$(basename $selected)"
-    repo="$(basename $(dirname $(dirname $git_dir)))"
-    repo="$(echo $repo | sed 's/\.git//g')"
-    composite_name="$repo/$worktree"
+    tmux switch-client -t $session_name
   fi
-popd
+}
 
-composite_name="$(echo "$composite_name" | tr . _)"
+# --- Main ---
 
-if [[ -z $TMUX ]]; then
-    tmux new-session -s $composite_name -c $selected_path
-    exit 0
-fi
+# Step 1: Select repo
+selected=$(fd -d 2 --min-depth 2 --type directory --search-path "$WORKSPACE" | sed "s#^$WORKSPACE/##" | gum filter --placeholder "Select repo...")
+[[ -z "$selected" ]] && exit 0
 
-if ! tmux has-session -t="$composite_name" 2> /dev/null; then
-    tmux new-session -ds $composite_name -c $selected_path
-fi
+repo_path="$WORKSPACE/$selected"
+repo_name=$(basename "$selected")
 
-if [[ -z $TMUX ]]; then
-    tmux attach-session -t $composite_name
+# Step 2: Select branch
+default_branch=$(git -C "$repo_path" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's#refs/remotes/origin/##' || echo "main")
+
+# Build branch list: default branch first, then remaining branches
+# Type a new name that doesn't match to create a new branch
+branches=$(git -C "$repo_path" branch -r --format='%(refname:short)' | sed 's#^origin/##' | sort -u)
+branch=$(printf "%s\n%s" "$default_branch" "$branches" | awk '!seen[$0]++' | gum filter --no-strict --placeholder "Select or type new branch...")
+[[ -z "$branch" ]] && exit 0
+
+# Check if branch exists remotely
+is_existing=$(echo "$branches" | grep -Fx "$branch" || true)
+
+if [[ -z "$is_existing" && "$branch" != "$default_branch" ]]; then
+  # New branch -> worktree
+  worktree_path="$WORKTREES/$repo_name/$branch"
+  mkdir -p "$(dirname "$worktree_path")"
+  git -C "$repo_path" worktree add -b "$branch" "$worktree_path"
+
+  switch_or_create_session "$repo_name/$branch" "$worktree_path"
+elif [[ "$branch" == "$default_branch" ]]; then
+  # Default branch -> use main repo directly
+  switch_or_create_session "$repo_name" "$repo_path"
 else
-    tmux switch-client -t $composite_name
+  # Existing branch -> worktree
+  worktree_path="$WORKTREES/$repo_name/$branch"
+  mkdir -p "$(dirname "$worktree_path")"
+
+  if [[ ! -d "$worktree_path" ]]; then
+    git -C "$repo_path" worktree add "$worktree_path" "$branch"
+  fi
+
+  switch_or_create_session "$repo_name/$branch" "$worktree_path"
 fi

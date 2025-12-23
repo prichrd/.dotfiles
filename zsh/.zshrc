@@ -30,21 +30,10 @@ alias vi="nvim"
 alias vim="nvim"
 
 alias k="kubectl"
-alias kd="kubectl describe"
 alias kdp="kubectl describe pods"
-alias kg="kubectl get"
 alias kgp="kubectl get pods"
-alias kgn="kubectl get namespaces"
-alias kl="kubectl logs"
-alias kens="kubens"
-alias kctx="kubectx"
 
 alias g="git"
-alias gs="git status"
-alias gc="git commit"
-alias gf="git fetch"
-alias gr="git rebase"
-alias gw="git worktree"
 
 alias ls="gls -h --color=always --group-directories-first"
 
