@@ -219,6 +219,15 @@ require("lazy").setup({
 					typescript = {
 						require("formatter.filetypes.typescript").biome,
 					},
+					cpp = {
+						require("formatter.filetypes.c").clangformat,
+					},
+					c = {
+						require("formatter.filetypes.c").clangformat,
+					},
+					python = {
+						require("formatter.filetypes.python").black,
+					},
 				},
 			})
 			vim.api.nvim_create_augroup("__formatter__", { clear = true })
@@ -227,5 +236,8 @@ require("lazy").setup({
 				command = ":FormatWrite",
 			})
 		end,
+	},
+	{
+		"github/copilot.vim",
 	},
 })
