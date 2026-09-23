@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p ~/.config
+
 for f in *; do
   if [ -d "$f" ]; then
     echo "Configuring $f"

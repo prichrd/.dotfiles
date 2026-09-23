@@ -32,7 +32,7 @@ switch_or_create_session() {
 # --- Main ---
 
 # Step 1: Select repo
-selected=$(fd -d 2 --min-depth 2 --type directory --search-path "$WORKSPACE" | sed "s#^$WORKSPACE/##" | gum filter --placeholder "Select repo...")
+selected=$(fd -d 2 --min-depth 2 --type directory --search-path "$WORKSPACE" | sed "s#^$WORKSPACE/##" | fzf --prompt "Select repo> ")
 [[ -z "$selected" ]] && exit 0
 
 repo_path="$WORKSPACE/$selected"
@@ -44,7 +44,7 @@ default_branch=$(git -C "$repo_path" symbolic-ref refs/remotes/origin/HEAD 2>/de
 # Build branch list: default branch first, then remaining branches
 # Type a new name that doesn't match to create a new branch
 branches=$(git -C "$repo_path" branch -r --format='%(refname:short)' | sed 's#^origin/##' | sort -u)
-branch=$(printf "%s\n%s" "$default_branch" "$branches" | awk '!seen[$0]++' | gum filter --no-strict --placeholder "Select or type new branch...")
+branch=$(printf "%s\n%s" "$default_branch" "$branches" | awk '!seen[$0]++' | fzf --print-query --prompt "Select or type new branch> " | tail -1)
 [[ -z "$branch" ]] && exit 0
 
 # Check if branch exists remotely
