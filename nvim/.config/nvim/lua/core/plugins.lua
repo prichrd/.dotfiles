@@ -3,7 +3,6 @@ vim.pack.add({
 	{ src = "https://github.com/tpope/vim-surround" },
 	{ src = "https://github.com/tpope/vim-commentary" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
-	{ src = "https://github.com/tpope/vim-rhubarb" },
 	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = "https://github.com/echasnovski/mini.completion" },
 	{ src = "https://github.com/echasnovski/mini.cursorword" },
@@ -11,6 +10,14 @@ vim.pack.add({
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 })
+
+vim.pack.update(nil, {force=true})
+
+vim.pack.del(vim.iter(vim.pack.get())
+	:filter(function(x) return not x.active end)
+	:map(function(x) return x.spec.name end)
+	:totable())
+
 
 -- tokyonight.nvim
 require("tokyonight").setup({ style = "night" })
@@ -38,9 +45,6 @@ require("oil").setup({
 		end,
 	},
 })
-vim.keymap.set("n", "-", function()
-	require("oil").open()
-end)
 
 -- fzf-lua
 require("fzf-lua").setup({
@@ -59,19 +63,10 @@ require("fzf-lua").setup({
 		},
 	},
 })
-vim.keymap.set("n", "<Leader>zz", "<cmd>FzfLua<CR>")
-vim.keymap.set("n", "<Leader>ff", function()
-	require("fzf-lua").files({})
-end)
-vim.keymap.set("n", "<Leader>fg", function()
-	require("fzf-lua").live_grep({})
-end)
-vim.keymap.set("n", "<Leader>fs", function()
-	require("fzf-lua").git_status({})
-end)
-vim.keymap.set("n", "<Leader>fb", function()
-	require("fzf-lua").buffers({})
-end)
-vim.keymap.set("n", "<Leader>fw", function()
-	require("fzf-lua").grep_cword({})
-end)
+
+vim.keymap.set("n", "-", function() require("oil").open() end)
+vim.keymap.set("n", "<Leader>ff", function() require("fzf-lua").files({}) end)
+vim.keymap.set("n", "<Leader>fg", function() require("fzf-lua").live_grep({}) end)
+vim.keymap.set("n", "<Leader>fs", function() require("fzf-lua").git_status({}) end)
+vim.keymap.set("n", "<Leader>fb", function() require("fzf-lua").buffers({}) end)
+vim.keymap.set("n", "<Leader>fw", function() require("fzf-lua").grep_cword({}) end)
