@@ -1,7 +1,5 @@
 require("core.options")
-require("core.keymaps")
 require("core.lsp")
 require("core.statusline")
-require("core.snippets")
 require("core.plugins")
 require("core.treesitter")

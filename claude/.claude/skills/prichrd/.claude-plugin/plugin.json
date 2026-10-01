@@ -1,0 +1,9 @@
+{
+  "name": "prichrd",
+  "version": "0.1.0",
+  "description": "Curated collection of personal skills, exposed as prichrd:<skill>",
+  "author": {
+    "name": "Philippe Richard",
+    "email": "prichrd.dev@gmail.com"
+  }
+}

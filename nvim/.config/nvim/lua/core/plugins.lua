@@ -1,7 +1,5 @@
 vim.pack.add({
-	{ src = "https://github.com/sindrets/diffview.nvim" },
 	{ src = "https://github.com/tpope/vim-surround" },
-	{ src = "https://github.com/tpope/vim-commentary" },
 	{ src = "https://github.com/tpope/vim-fugitive" },
 	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = "https://github.com/echasnovski/mini.completion" },
@@ -11,13 +9,17 @@ vim.pack.add({
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 })
 
-vim.pack.update(nil, {force=true})
-
-vim.pack.del(vim.iter(vim.pack.get())
-	:filter(function(x) return not x.active end)
-	:map(function(x) return x.spec.name end)
-	:totable())
-
+-- delete plugins removed from the list above, then update the rest
+vim.api.nvim_create_user_command("PackUpdate", function()
+	local inactive = vim.iter(vim.pack.get())
+		:filter(function(x) return not x.active end)
+		:map(function(x) return x.spec.name end)
+		:totable()
+	if #inactive > 0 then
+		vim.pack.del(inactive)
+	end
+	vim.pack.update(nil, { force = true })
+end, {})
 
 -- tokyonight.nvim
 require("tokyonight").setup({ style = "night" })
