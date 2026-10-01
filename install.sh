@@ -8,8 +8,8 @@ for f in *; do
     if [[ -f "$f/install.sh" ]]; then
       "$f/install.sh"
     else
-      stow -D $f
-      stow $f
+      stow -D "$f"
+      stow --no-folding "$f"
     fi
   fi
 done
