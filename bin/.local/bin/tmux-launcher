@@ -32,7 +32,7 @@ switch_or_create_session() {
 # --- Main ---
 
 # Step 1: Select repo
-selected=$(fd -d 2 --min-depth 2 --type directory --search-path "$WORKSPACE" | sed "s#^$WORKSPACE/##" | fzf --prompt "Select repo> ")
+selected=$(fd -d 3 --min-depth 3 --type directory --search-path "$WORKSPACE" | sed "s#^$WORKSPACE/##" | fzf --prompt "Select repo> ")
 [[ -z "$selected" ]] && exit 0
 
 repo_path="$WORKSPACE/$selected"
