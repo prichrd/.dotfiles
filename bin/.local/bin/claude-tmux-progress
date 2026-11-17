@@ -1,0 +1,13 @@
+#!/bin/sh
+# Drive the OSC 9;4 progress bar for the tmux pane running Claude Code.
+# tmux (terminal-features: progressbar) forwards it to Ghostty.
+# Usage: claude-tmux-progress busy|waiting|idle
+[ -n "$TMUX_PANE" ] || exit 0
+case "$1" in
+  busy)    seq='3' ;;    # indeterminate (pulsing)
+  waiting) seq='4;100' ;; # paused (needs input)
+  *)       seq='0' ;;    # hidden
+esac
+tty=$(tmux display -p -t "$TMUX_PANE" '#{pane_tty}' 2>/dev/null) || exit 0
+[ -w "$tty" ] && printf '\033]9;4;%s\007' "$seq" > "$tty"
+exit 0
