@@ -1,0 +1,229 @@
+#!/usr/bin/env bash
+# tmux-agents: popup manager for tmux windows grouped by session, with Claude Code status.
+#
+#   enter  jump to the window / session
+#   o      new Claude window in the selected session (asks for an optional prompt)
+#   d      kill the window (or the whole session on a session line), with confirm
+#   m      move the window to another session, or a new one (type a new name)
+#   M      same as m, then switch to the window in its new session
+#   q/esc  close
+#
+# Dots: yellow = needs input, blue = working, green = idle, grey = not Claude.
+# The list refreshes live: a background watcher pushes reloads into fzf through
+# its --listen socket whenever tmux state changes.
+#
+# Claude panes are detected by their process name being a version (e.g. 2.1.326);
+# state comes from the OSC 9;4 progress set by the claude-tmux-progress hooks.
+
+set -euo pipefail
+
+self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+SEP=$'\x1f'
+
+# One line per row: <target id> TAB <kind s|w> TAB <session id> TAB <display>
+list() {
+  tmux list-panes -a -F "#{session_id}${SEP}#{session_name}${SEP}#{session_windows}${SEP}#{session_attached}${SEP}#{window_id}${SEP}#{window_name}${SEP}#{pane_current_command}${SEP}#{pane_pb_state}" 2>/dev/null |
+  awk -F "$SEP" '
+    function rank(st) { return st == "paused" ? 3 : st == "indeterminate" ? 2 : 1 }
+    function dot(r) {
+      if (r == 3) return "\033[38;2;224;175;104m●\033[0m"
+      if (r == 2) return "\033[38;2;122;162;247m●\033[0m"
+      if (r == 1) return "\033[38;2;158;206;106m●\033[0m"
+      return "\033[38;2;59;66;97m●\033[0m"
+    }
+    {
+      sid = $1; wid = $5
+      if (!(sid in sname)) { sorder[++ns] = sid; sname[sid] = $2; swins[sid] = $3; satt[sid] = $4; srank[sid] = 0 }
+      if (!(wid in wname)) { worder[sid, ++nw[sid]] = wid; wname[wid] = $6; wrank[wid] = 0 }
+      if ($7 ~ /^[0-9]+\.[0-9]+\.[0-9]+$/) {
+        r = rank($8)
+        if (r > wrank[wid]) wrank[wid] = r
+        if (r > srank[sid]) srank[sid] = r
+      }
+    }
+    END {
+      dim = "\033[38;2;86;95;137m"; rst = "\033[0m"
+      for (i = 1; i <= ns; i++) {
+        sid = sorder[i]
+        att = satt[sid] > 0 ? " · attached" : ""
+        printf "%s\ts\t%s\t%s \033[1m%s%s  %s%d window%s%s%s\n", sid, sid, dot(srank[sid]), sname[sid], rst, dim, swins[sid], (swins[sid] == 1 ? "" : "s"), att, rst
+        for (j = 1; j <= nw[sid]; j++) {
+          wid = worder[sid, j]
+          printf "%s\tw\t%s\t    %s %s\n", wid, sid, dot(wrank[wid]), wname[wid]
+        }
+      }
+    }'
+}
+
+# Every session as a picker row (excluding $1), same look as the session lines above.
+sessions() {
+  tmux list-panes -a -F "#{session_id}${SEP}#{session_name}${SEP}#{session_windows}${SEP}#{session_attached}${SEP}#{pane_current_command}${SEP}#{pane_pb_state}" 2>/dev/null |
+  awk -F "$SEP" -v skip="$1" '
+    function dot(r) {
+      if (r == 3) return "\033[38;2;224;175;104m●\033[0m"
+      if (r == 2) return "\033[38;2;122;162;247m●\033[0m"
+      if (r == 1) return "\033[38;2;158;206;106m●\033[0m"
+      return "\033[38;2;59;66;97m●\033[0m"
+    }
+    $1 == skip { next }
+    {
+      sid = $1
+      if (!(sid in sname)) { sorder[++ns] = sid; sname[sid] = $2; swins[sid] = $3; satt[sid] = $4; srank[sid] = 0 }
+      if ($5 ~ /^[0-9]+\.[0-9]+\.[0-9]+$/) {
+        r = $6 == "paused" ? 3 : $6 == "indeterminate" ? 2 : 1
+        if (r > srank[sid]) srank[sid] = r
+      }
+    }
+    END {
+      dim = "\033[38;2;86;95;137m"; rst = "\033[0m"
+      for (i = 1; i <= ns; i++) {
+        sid = sorder[i]
+        att = satt[sid] > 0 ? " · attached" : ""
+        printf "%s\ts\t%s\t%s \033[1m%s%s  %s%d window%s%s%s\n", sid, sid, dot(srank[sid]), sname[sid], rst, dim, swins[sid], (swins[sid] == 1 ? "" : "s"), att, rst
+      }
+    }'
+}
+
+FZF_STYLE=(--ansi --no-input --reverse --no-sort --cycle --delimiter '\t'
+  --header-first --pointer '▌' --gutter ' '
+  --color 'bg+:#292e42,header:#565f89,pointer:#7aa2f7')
+
+fzf_post() {
+  curl -sf -o /dev/null -XPOST -H "x-api-key: ${FZF_API_KEY}" "http://localhost:${FZF_PORT}" -d "$1"
+}
+
+# Runs in the background for the lifetime of the picker; exits once fzf is gone.
+watch() {
+  local prev cur
+  prev="$(list)"
+  while sleep 1; do
+    curl -sf -o /dev/null -H "x-api-key: ${FZF_API_KEY}" "http://localhost:${FZF_PORT}" || exit 0
+    cur="$(list)"
+    if [[ "$cur" != "$prev" ]]; then
+      prev="$cur"
+      fzf_post "reload-sync($self _list)" || exit 0
+    fi
+  done
+}
+
+confirm() {
+  local reply
+  printf '%s [y/N] ' "$1"
+  read -r -n 1 reply
+  echo
+  [[ "$reply" == [yY] ]]
+}
+
+new_window() {
+  local sid="$1" path name prompt wid cmd
+  path="$(tmux display-message -p -t "$sid" '#{session_path}')"
+  name="$(tmux display-message -p -t "$sid" '#{session_name}')"
+  printf 'New Claude window in \033[1m%s\033[0m (%s)\n' "$name" "$path"
+  read -r -e -p 'Initial prompt (optional, ctrl-c to cancel): ' prompt || return 0
+  wid="$(tmux new-window -d -P -F '#{window_id}' -t "${sid}:" -c "$path")"
+  start_claude "$wid" "$prompt"
+  # Drop straight into the new window and close the popup.
+  tmux switch-client -t "$wid"
+  tmux display-popup -C
+}
+
+start_claude() {
+  local wid="$1" prompt="$2" cmd="claude"
+  [[ -n "$prompt" ]] && cmd+=" $(printf '%q' "$prompt")"
+  tmux send-keys -t "$wid" -l "$cmd"
+  tmux send-keys -t "$wid" Enter
+}
+
+kill_target() {
+  local id="$1" kind="$2" name
+  if [[ "$kind" == "s" ]]; then
+    name="$(tmux display-message -p -t "$id" '#{session_name} (#{session_windows} windows)')"
+    confirm "Kill session $name?" && tmux kill-session -t "$id"
+  else
+    name="$(tmux display-message -p -t "$id" '#{session_name}: #{window_name}')"
+    confirm "Kill window $name?" && tmux kill-window -t "$id"
+  fi
+  return 0
+}
+
+move_window() {
+  local wid="$1" kind="$2" follow="${3:-}" cur pick target path placeholder
+  if [[ "$kind" != "w" ]]; then
+    echo "Move works on window lines. Press any key."
+    read -r -n 1
+    return 0
+  fi
+  cur="$(tmux display-message -p -t "$wid" '#{session_id}')"
+  pick="$( { sessions "$cur"; printf '+\t\t\t  \033[38;2;122;162;247m+ new session…\033[0m\n'; } |
+    fzf "${FZF_STYLE[@]}" --with-nth 4 \
+        --header "Move \"$(tmux display-message -p -t "$wid" '#{window_name}')\" to · enter pick · q back" \
+        --bind 'q:abort,esc:abort,j:down,k:up' |
+    cut -f 1 || true)"
+  [[ -z "$pick" ]] && return 0
+
+  if [[ "$pick" != "+" ]]; then
+    tmux move-window -d -s "$wid" -t "${pick}:"
+    follow_window "$wid" "$follow"
+    return 0
+  fi
+
+  read -r -e -p 'New session name (ctrl-c to cancel): ' target || return 0
+  target="${target//[.:]/_}"
+  [[ -z "$target" ]] && return 0
+
+  if tmux has-session -t "=$target" 2>/dev/null; then
+    tmux move-window -d -s "$wid" -t "=${target}:"
+  else
+    path="$(tmux display-message -p -t "$wid" '#{pane_current_path}')"
+    placeholder="$(tmux new-session -d -P -F '#{window_id}' -s "$target" -c "$path")"
+    tmux move-window -d -s "$wid" -t "=${target}:"
+    tmux kill-window -t "$placeholder"
+  fi
+  follow_window "$wid" "$follow"
+}
+
+# With M: switch to the moved window and close the popup.
+follow_window() {
+  [[ -n "$2" ]] || return 0
+  tmux switch-client -t "$1"
+  tmux display-popup -C
+}
+
+jump() {
+  tmux switch-client -t "$1"
+}
+
+main() {
+  local current pos
+  current="$(tmux display-message -p '#{window_id}')"
+  pos="$(list | awk -F '\t' -v w="$current" '$1 == w { print NR; exit }')"
+
+  FZF_API_KEY="$(head -c 24 /dev/urandom | base64 | tr -dc 'A-Za-z0-9')"
+  export FZF_API_KEY
+
+  local s
+  s="$(printf '%q' "$self")"
+  list | fzf "${FZF_STYLE[@]}" --track --with-nth 4 --id-nth 1 \
+    --listen \
+    --header 'enter jump · o new window · d delete · m move · M move+go · q quit' \
+    --bind "start:execute-silent($s _watch >/dev/null 2>&1 </dev/null &)" \
+    --bind "load:pos(${pos:-1})+unbind(load)" \
+    --bind 'q:abort,esc:abort,j:down,k:up' \
+    --bind "enter:execute-silent($s _jump {1})+abort" \
+    --bind "o:execute($s _new {3})+reload-sync($s _list)" \
+    --bind "d:execute($s _kill {1} {2})+reload-sync($s _list)" \
+    --bind "m:execute($s _move {1} {2})+reload-sync($s _list)" \
+    --bind "M:execute($s _move {1} {2} follow)+reload-sync($s _list)" \
+    >/dev/null || true
+}
+
+case "${1:-}" in
+  _list) list ;;
+  _watch) watch ;;
+  _new) new_window "$2" ;;
+  _kill) kill_target "$2" "$3" ;;
+  _move) move_window "$2" "$3" "${4:-}" ;;
+  _jump) jump "$2" ;;
+  "") main ;;
+  *) echo "usage: tmux-agents" >&2; exit 2 ;;
+esac

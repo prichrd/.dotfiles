@@ -1,0 +1,17 @@
+#!/bin/sh
+# tmux status: Claude Code panes across all sessions, counted by state.
+# yellow = needs input, blue = working, green = idle. Only non-zero counts show.
+# State comes from the OSC 9;4 progress set by claude-tmux-progress hooks;
+# Claude panes are detected by their process name being a version (e.g. 2.1.326).
+tmux list-panes -a -F '#{pane_current_command} #{pane_pb_state}' 2>/dev/null |
+awk '
+  $1 ~ /^[0-9]+\.[0-9]+\.[0-9]+$/ {
+    if ($2 == "paused") w++; else if ($2 == "indeterminate") b++; else i++
+  }
+  END {
+    out = ""
+    if (w) out = out sprintf("#[fg=#e0af68]● %d ", w)
+    if (b) out = out sprintf("#[fg=#7aa2f7]● %d ", b)
+    if (i) out = out sprintf("#[fg=#9ece6a]● %d ", i)
+    if (out != "") { sub(/ $/, "", out); printf "%s#[default]", out }
+  }'

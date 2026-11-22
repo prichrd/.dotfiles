@@ -1,0 +1,56 @@
+#!/bin/sh
+# tmux status: CPU %, memory %, network down/up rate on the default interface.
+# CPU and memory turn yellow at 70%, red at 90%.
+# Network rate = byte counter delta since the previous run (state in ~/.cache).
+
+color() { # $1 = percent
+  if [ "$1" -ge 90 ]; then printf '#[fg=#f7768e]'
+  elif [ "$1" -ge 70 ]; then printf '#[fg=#e0af68]'
+  else printf '#[fg=#7dcfff]'
+  fi
+}
+
+human() { # bytes/s -> 1.2M / 340K / 12B
+  awk -v n="$1" 'BEGIN {
+    if (n >= 1048576) printf "%.1fM", n / 1048576
+    else if (n >= 1024) printf "%.0fK", n / 1024
+    else printf "%dB", n
+  }'
+}
+
+# CPU: idle % from the second iostat sample (1 s window)
+idle=$(iostat -n 0 -c 2 -w 1 2>/dev/null | tail -1 | awk '{print $(NF-3)}')
+cpu=$((100 - ${idle:-100}))
+
+# Memory: 100 - system-wide free percentage
+free=$(memory_pressure -Q 2>/dev/null | awk -F': ' '/free percentage/ {gsub("%", "", $2); print $2}')
+mem=$((100 - ${free:-100}))
+
+# Network (state: time iface rx tx rx_rate tx_rate). When run again within the
+# same second, keep the previous reading and show the last rate.
+state="${XDG_CACHE_HOME:-$HOME/.cache}/tmux-sysstats-net"
+iface=$(route -n get default 2>/dev/null | awk '/interface:/ {print $2}')
+net=''
+if [ -n "$iface" ]; then
+  set -- $(netstat -ibn -I "$iface" 2>/dev/null | awk 'NR == 2 {print $(NF-4), $(NF-1)}')
+  rx=$1 tx=$2 now=$(date +%s)
+  pnow='' pif='' prx='' ptx='' rxr='' txr=''
+  [ -r "$state" ] && read -r pnow pif prx ptx rxr txr < "$state"
+  if [ -n "$rx" ]; then
+    if [ "$pif" = "$iface" ] && [ "$now" = "$pnow" ]; then
+      : # same second: keep state and the last rates
+    else
+      rxr='' txr=''
+      dt=$((now - ${pnow:-0}))
+      if [ "$pif" = "$iface" ] && [ "$dt" -gt 0 ] && [ "$rx" -ge "$prx" ] && [ "$tx" -ge "$ptx" ]; then
+        rxr=$(((rx - prx) / dt)) txr=$(((tx - ptx) / dt))
+      fi
+      mkdir -p "$(dirname "$state")"
+      echo "$now $iface $rx $tx $rxr $txr" > "$state"
+    fi
+  fi
+  [ -n "$rxr" ] && net=" #[fg=#565f89]↓#[fg=#7dcfff]$(human "$rxr") #[fg=#565f89]↑#[fg=#7dcfff]$(human "$txr")"
+fi
+
+printf '#[fg=#565f89]cpu %s%d%%  #[fg=#565f89]mem %s%d%%%s#[default]' \
+  "$(color $cpu)" "$cpu" "$(color $mem)" "$mem" "$net"

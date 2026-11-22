@@ -1,0 +1,28 @@
+#!/bin/sh
+# tmux status: number of outdated Homebrew packages, in red. Prints nothing when 0.
+# The count is cached and refreshed in the background at most every 30 minutes,
+# so the status bar never waits on brew.
+cache="${XDG_CACHE_HOME:-$HOME/.cache}/tmux-brew-outdated"
+lock="$cache.lock"
+max_age=1800
+brew=$(command -v brew || echo /opt/homebrew/bin/brew)
+
+mkdir -p "$(dirname "$cache")"
+now=$(date +%s)
+age() { echo $((now - $(/usr/bin/stat -f %m "$1" 2>/dev/null || echo 0))); }
+
+# Clear a lock left behind by a refresh that died
+[ -d "$lock" ] && [ "$(age "$lock")" -gt 600 ] && rmdir "$lock" 2>/dev/null
+
+if [ "$(age "$cache")" -ge "$max_age" ] && mkdir "$lock" 2>/dev/null; then
+  (
+    if out=$("$brew" outdated --quiet 2>/dev/null); then
+      printf '%s\n' "$out" | grep -c . > "$cache.tmp" && mv "$cache.tmp" "$cache"
+    fi
+    rmdir "$lock"
+  ) >/dev/null 2>&1 </dev/null &
+fi
+
+n=$(cat "$cache" 2>/dev/null)
+[ -n "$n" ] && [ "$n" -gt 0 ] 2>/dev/null && printf '#[fg=#f7768e]brew %s#[default]' "$n"
+exit 0

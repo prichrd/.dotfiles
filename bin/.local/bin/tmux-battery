@@ -1,0 +1,15 @@
+#!/bin/sh
+# tmux status: battery percentage. Yellow at 40% or less, red at 20% or less,
+# ⚡ when plugged in. Prints nothing on machines without a battery.
+out=$(pmset -g batt 2>/dev/null)
+pct=$(printf '%s\n' "$out" | grep -o '[0-9]*%' | head -1 | tr -d '%')
+[ -n "$pct" ] || exit 0
+
+plug=''
+printf '%s\n' "$out" | grep -q "AC Power" && plug='⚡'
+
+if [ "$pct" -le 20 ]; then color='#f7768e'
+elif [ "$pct" -le 40 ]; then color='#e0af68'
+else color='#7dcfff'
+fi
+printf '#[fg=%s]%s%s%%#[default]' "$color" "$plug" "$pct"
