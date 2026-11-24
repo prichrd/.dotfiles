@@ -1,5 +1,3 @@
-# Mirrors alacritty/.alacritty.toml
-
 # Font
 font-family = JetBrainsMono Nerd Font Mono
 font-size = 14
@@ -31,7 +29,7 @@ palette = 17=#db4b4b
 # Terminal
 term = xterm-256color
 
-# Alacritty defaults: no padding, steady block cursor
+# No padding, steady block cursor
 window-padding-x = 0
 window-padding-y = 0
 window-padding-color = extend
