@@ -1,7 +1,0 @@
-#!/bin/sh
-# Claude Code SessionStart hook: remember the Claude session id on its tmux pane
-# (pane option @claude_session_id) so tmux-persist can resume it after a reboot.
-[ -n "$TMUX_PANE" ] || exit 0
-id=$(jq -r '.session_id // empty' 2>/dev/null) || exit 0
-[ -n "$id" ] && tmux set-option -p -t "$TMUX_PANE" @claude_session_id "$id" 2>/dev/null
-exit 0

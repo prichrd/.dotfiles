@@ -1,0 +1,78 @@
+#!/bin/sh
+# tmux-windows: fzf picker over every window of every session, shown as
+# "● [session] window" and sorted alphabetically.
+#
+#   enter   switch to the window
+#   ctrl-x  kill the window (no confirmation)
+#   esc     close, stay put
+#
+# Runs in a temporary zoomed pane (see prefix-w in .tmux.conf), so it takes over
+# the window like the built-in choose-tree and disappears when done.
+#
+# The dot is the most urgent state among the window's panes, same colors as the
+# status bar: yellow = Claude needs input, blue = working, green = idle, grey = other.
+#
+# Internal subcommand used by the fzf reload: list.
+
+self=$0
+
+# Lines are: pane to switch to / preview / kill, colored label
+windows() {
+  tmux list-panes -a -F '#{window_id}	#{pane_id}	#{pane_active}	[#{session_name}] #{window_name}	#{pane_current_command}	#{pane_pb_state}' |
+    awk -F '\t' -v self="$TMUX_PANE" -v from="$TMUX_WINDOWS_FROM" '
+      $2 == self { next }
+      {
+        if ($6 == "paused") r = 3
+        else if ($6 == "indeterminate") r = 2
+        else if ($5 ~ /^[0-9]+\.[0-9]+\.[0-9]+$/) r = 1
+        else r = 0
+        name[$1] = $4
+        if (r > rank[$1]) rank[$1] = r
+        if ($3 == 1 || $2 == from || !($1 in pane)) pane[$1] = $2
+      }
+      END {
+        color[3] = "224;175;104"; color[2] = "122;162;247"
+        color[1] = "158;206;106"; color[0] = "59;66;97"
+        for (w in name)
+          printf "%s\t%s\t\033[38;2;%sm●\033[0m %s\n", name[w], pane[w], color[rank[w] + 0], name[w]
+      }' |
+    sort -f -t '	' -k 1,1 |
+    cut -f 2-
+}
+
+if [ "$1" = list ]; then
+  windows
+  exit 0
+fi
+
+# The pane we were opened from, so the current window previews it, not this picker.
+# Exported so the list keeps it when fzf reloads after a kill.
+TMUX_WINDOWS_FROM=$(tmux display -p -t '{last}' '#{pane_id}')
+export TMUX_WINDOWS_FROM
+
+# prefix-w paused automatic rename so the tab keeps its name; put it back on exit
+# shellcheck disable=SC2329 # called by the trap below
+restore_rename() {
+  tmux set -w -t "$TMUX_PANE" automatic-rename "$(tmux show -wv -t "$TMUX_PANE" @picker-auto-rename)"
+  tmux set -wu -t "$TMUX_PANE" @picker-auto-rename
+}
+trap restore_rename EXIT
+
+list=$(windows)
+
+# Start with the cursor on the window we were opened from
+pos=$(printf '%s\n' "$list" | awk -F '\t' -v from="$TMUX_WINDOWS_FROM" '$1 == from { print NR; exit }')
+
+target=$(
+  printf '%s\n' "$list" |
+    fzf --ansi --delimiter '	' --with-nth 2 --no-sort --reverse \
+      --sync --bind "start:pos(${pos:-1})" \
+      --header 'enter: switch · ctrl-x: kill window · esc: close' \
+      --bind "ctrl-x:execute-silent(tmux kill-window -t {1})+reload('$self' list)" \
+      --preview 'tmux capture-pane -ep -t {1}' --preview-window 'right,60%' |
+    cut -f 1
+)
+
+# Escape / ctrl-c leave nothing selected: stay where we are
+[ -n "$target" ] && tmux switch-client -t "$target"
+exit 0
